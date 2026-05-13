@@ -2430,6 +2430,377 @@ Form notices (PHP-driven success / error)
   color: #8a1c14;
 }
 
+.form-notice.is-info {
+  background-color: rgba(11, 35, 66, 0.08);
+  border: 1px solid rgba(11, 35, 66, 0.3);
+  color: #0b2342;
+}
+
+/*
+---------------------------------------------
+Empty state + enroll modal (My Certifications)
+---------------------------------------------
+*/
+
+.certs-empty {
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 60px 30px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(11, 35, 66, 0.08);
+  border-top: 3px solid #c9a44a;
+  margin-top: 10px;
+}
+
+.certs-empty .empty-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #0b2342;
+  color: #c9a44a;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 22px auto;
+}
+
+.certs-empty h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0b2342;
+  margin-bottom: 8px;
+}
+
+.certs-empty p {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.certs-empty .main-button {
+  display: inline-block;
+  background-color: #0b2342;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.certs-empty .main-button:hover {
+  background-color: #c9a44a;
+  color: #0b2342;
+}
+
+.enroll-modal {
+  border-radius: 18px;
+  border: none;
+  border-top: 4px solid #c9a44a;
+  overflow: hidden;
+}
+
+.enroll-modal .modal-body {
+  text-align: center;
+  padding: 40px 36px 36px 36px;
+}
+
+.enroll-modal .enroll-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #0b2342;
+  color: #c9a44a;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.enroll-modal h4 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0b2342;
+  margin-bottom: 10px;
+}
+
+.enroll-modal p {
+  color: #6b7280;
+  margin-bottom: 26px;
+}
+
+.enroll-modal .enroll-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.enroll-modal .main-button {
+  display: inline-block;
+  background-color: #0b2342;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.enroll-modal .main-button:hover {
+  background-color: #c9a44a;
+  color: #0b2342;
+}
+
+.enroll-modal .cancel-link {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.enroll-modal .cancel-link:hover {
+  color: #0b2342;
+}
+
+.certs-filters .catalog-chip {
+  background-color: #c9a44a;
+  border-color: #c9a44a;
+  color: #0b2342;
+}
+
+.certs-filters .catalog-chip:hover {
+  background-color: #0b2342;
+  border-color: #0b2342;
+  color: #c9a44a;
+}
+
+.certs-filters .catalog-chip i {
+  margin-right: 4px;
+}
+
+/*
+---------------------------------------------
+Catalog page
+---------------------------------------------
+*/
+
+.catalog-page {
+  background-color: #f2eedb;
+  padding: 180px 0px 120px 0px;
+  min-height: 100vh;
+}
+
+.catalog-hello {
+  margin-bottom: 40px;
+}
+
+.catalog-hello h6 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c9a44a;
+  margin-bottom: 14px;
+}
+
+.catalog-hello h2 {
+  font-size: 38px;
+  font-weight: 700;
+  color: #0b2342;
+  line-height: 52px;
+  margin-bottom: 14px;
+}
+
+.catalog-hello h2 em {
+  color: #0b2342;
+  font-style: normal;
+}
+
+.catalog-hello h2 span {
+  color: #c9a44a;
+}
+
+.catalog-hello p {
+  color: #2a2a2a;
+  max-width: 640px;
+  margin: 0 0 18px 0;
+}
+
+.catalog-hello .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0b2342;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.catalog-hello .back-link:hover {
+  color: #c9a44a;
+}
+
+.catalog-section {
+  margin-top: 36px;
+}
+
+.catalog-category {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0b2342;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.catalog-category .cat-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: #c9a44a;
+  background-color: #fff;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #c9a44a;
+  letter-spacing: 1px;
+}
+
+.catalog-grid [class*="col-"] {
+  margin-bottom: 22px;
+  display: flex;
+}
+
+.catalog-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 24px 24px 20px 24px;
+  box-shadow: 0 14px 32px rgba(11, 35, 66, 0.07);
+  border-top: 3px solid #c9a44a;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.catalog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px rgba(11, 35, 66, 0.13);
+}
+
+.catalog-card.is-enrolled {
+  opacity: 0.85;
+  border-top-color: #6b7280;
+}
+
+.cat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cat-provider {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.cat-code {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #0b2342;
+  background-color: #f2eedb;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.catalog-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0b2342;
+  margin: 0 0 8px 0;
+  line-height: 24px;
+}
+
+.catalog-card p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 22px;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.cat-action form {
+  margin: 0;
+}
+
+.enroll-btn {
+  display: inline-block;
+  background-color: #0b2342;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.enroll-btn:hover {
+  background-color: #c9a44a;
+  color: #0b2342;
+}
+
+.enrolled-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #0b2342;
+  background-color: rgba(201, 164, 74, 0.25);
+  border: 1px solid #c9a44a;
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+
+@media (max-width: 992px) {
+  .catalog-page {
+    padding: 140px 0px 80px 0px;
+  }
+  .catalog-hello h2 {
+    font-size: 28px;
+    line-height: 40px;
+  }
+}
+
 /* 
 ---------------------------------------------
 responsive

@@ -40,3 +40,74 @@ CREATE TABLE `profiles` (
 INSERT INTO `profiles` (`user_id`, `phone`, `address`) VALUES
   (1, NULL, NULL),
   (2, NULL, NULL);
+
+-- Catalog of certifications offered (master list, shared across users).
+DROP TABLE IF EXISTS `user_certifications`;
+DROP TABLE IF EXISTS `certifications`;
+
+CREATE TABLE `certifications` (
+  `id`          INT AUTO_INCREMENT PRIMARY KEY,
+  `code`        VARCHAR(50)  NOT NULL UNIQUE,
+  `name`        VARCHAR(255) NOT NULL,
+  `provider`    VARCHAR(100) NOT NULL,
+  `category`    ENUM('technical','linguistic','other') NOT NULL DEFAULT 'technical',
+  `description` VARCHAR(500) DEFAULT NULL,
+  `created_at`  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Per-user enrolment / progress / earned status.
+CREATE TABLE `user_certifications` (
+  `id`               INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id`          INT NOT NULL,
+  `certification_id` INT NOT NULL,
+  `status`           ENUM('in_progress','earned') NOT NULL DEFAULT 'in_progress',
+  `progress`         TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `enrolled_at`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `earned_at`        TIMESTAMP NULL DEFAULT NULL,
+  UNIQUE KEY `uq_user_cert` (`user_id`, `certification_id`),
+  CONSTRAINT `fk_uc_user` FOREIGN KEY (`user_id`)          REFERENCES `users`(`id`)          ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_uc_cert` FOREIGN KEY (`certification_id`) REFERENCES `certifications`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Catalog seed, based on the TEK-UP certifications poster.
+INSERT INTO `certifications` (`code`, `name`, `provider`, `category`, `description`) VALUES
+  ('CCNA',          'CCNA — Networking Associate',                'Cisco',             'technical',  'Routing, switching, network fundamentals and security basics.'),
+  ('CCNP',          'CCNP — Networking Professional',             'Cisco',             'technical',  'Enterprise networking, advanced routing and infrastructure.'),
+  ('CCIE',          'CCIE — Networking Expert',                   'Cisco',             'technical',  'Expert-level networking certification with hands-on lab exam.'),
+  ('AWS-CLF',       'AWS Cloud Practitioner',                     'Amazon AWS',        'technical',  'Foundational AWS Cloud concepts and services.'),
+  ('AWS-SAA',       'AWS Solutions Architect — Associate',        'Amazon AWS',        'technical',  'Design distributed systems on AWS at associate level.'),
+  ('AWS-SAP',       'AWS Solutions Architect — Professional',     'Amazon AWS',        'technical',  'Design and deploy large-scale, fault-tolerant systems on AWS.'),
+  ('AWS-DVA',       'AWS Developer — Associate',                  'Amazon AWS',        'technical',  'Develop, deploy and debug cloud-based applications on AWS.'),
+  ('CEH',           'CEH — Certified Ethical Hacker',             'EC-Council',        'technical',  'Tools and methods of ethical hacking, real-world labs.'),
+  ('CHFI',          'CHFI — Hacking Forensic Investigator',       'EC-Council',        'technical',  'Digital forensics, investigation and incident response.'),
+  ('CND',           'CND — Certified Network Defender',           'EC-Council',        'technical',  'Defensive network security operations.'),
+  ('RHCSA-EX200',   'RHCSA (EX-200)',                             'Red Hat',           'technical',  'Red Hat Certified System Administrator.'),
+  ('RHCE-EX294',    'RHCE (EX-294)',                              'Red Hat',           'technical',  'Red Hat Certified Engineer with Ansible automation.'),
+  ('RHCS-EX447',    'RHCS Ansible Best Practices (EX-447)',       'Red Hat',           'technical',  'Advanced Ansible automation with Red Hat.'),
+  ('RHCS-EX358',    'RHCS Services Management (EX-358)',          'Red Hat',           'technical',  'Network services on Red Hat Enterprise Linux.'),
+  ('eWPT',          'eWPT — Web Penetration Tester',              'INE',               'technical',  'Web application penetration testing certification.'),
+  ('eCPPT',         'eCPPT — Professional Penetration Tester',    'INE',               'technical',  'Hands-on professional penetration tester certification.'),
+  ('eMAPT',         'eMAPT — Mobile App Penetration Tester',      'INE',               'technical',  'Mobile application penetration testing.'),
+  ('eSOC',          'eSOC — SOC Analyst',                         'INE',               'technical',  'Security Operations Center analyst certification.'),
+  ('HCIA',          'HCIA — ICT Associate',                       'Huawei',            'technical',  'Huawei Certified ICT Associate.'),
+  ('HCIP',          'HCIP — ICT Professional',                    'Huawei',            'technical',  'Huawei Certified ICT Professional.'),
+  ('HCIE',          'HCIE — ICT Expert',                          'Huawei',            'technical',  'Huawei Certified ICT Expert.'),
+  ('OCA-JAVA',      'Oracle Java — Associate (OCA)',              'Oracle',            'technical',  'Oracle Certified Associate in Java SE.'),
+  ('OCP-JAVA',      'Oracle Java — Professional (OCP)',           'Oracle',            'technical',  'Oracle Certified Professional in Java SE.'),
+  ('OCA-DB',        'Oracle Database — Associate',                'Oracle',            'technical',  'Oracle Database Administration at associate level.'),
+  ('OCP-DB',        'Oracle Database — Professional',             'Oracle',            'technical',  'Oracle Database Administration at professional level.'),
+  ('PCEP',          'PCEP — Entry-Level Python',                  'Python Institute',  'technical',  'Entry-level Python programming certification.'),
+  ('PCAP',          'PCAP — Associate Python Programmer',         'Python Institute',  'technical',  'Associate-level Python programming certification.'),
+  ('PCPP',          'PCPP — Professional Python Programmer',      'Python Institute',  'technical',  'Professional-level Python programming certification.'),
+  ('MS-ITS',        'Microsoft IT Specialist',                    'Microsoft',         'technical',  'Foundational Microsoft IT Specialist track.'),
+  ('AZ-900',        'Azure Fundamentals (AZ-900)',                'Microsoft',         'technical',  'Foundational knowledge of Microsoft Azure services.'),
+  ('LFCS',          'LFCS — Linux Foundation Certified SysAdmin', 'Linux Foundation',  'technical',  'Linux Foundation Certified System Administrator.'),
+  ('OSCP',          'OSCP — Penetration Tester',                  'Offensive Security','technical',  'Hands-on offensive security certification.'),
+  ('IELTS',         'IELTS — English Proficiency',                'British Council',   'linguistic', 'International English Language Testing System.'),
+  ('GOETHE-B1',     'Goethe-Zertifikat B1 — German',              'Goethe-Institut',   'linguistic', 'German language certification at B1 level.'),
+  ('DELF-B1',       'DELF B1 — French',                           'France Éducation',  'linguistic', 'French language certification at B1 level.'),
+  ('NSE-4',         'NSE 4 — Network Security Professional',      'Fortinet',          'other',      'Fortinet Network Security Professional certification.'),
+  ('PECB-27001',    'ISO 27001 Lead Auditor',                     'PECB',              'other',      'Information security management system lead auditor.'),
+  ('VCP-DCV',       'VCP-DCV — Data Center Virtualization',       'VMware',            'other',      'VMware Certified Professional, Data Center Virtualization.'),
+  ('NVIDIA-CUDA',   'CUDA Developer',                             'NVIDIA',            'other',      'NVIDIA CUDA programming and parallel acceleration.'),
+  ('ISTQB-FL',      'ISTQB Foundation Level',                     'ISTQB',             'other',      'Software testing foundation certification.');

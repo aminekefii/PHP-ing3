@@ -1,11 +1,26 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/db.php';
 
 $page_title = 'Dashboard — TEK-UP Certified Students';
 $active     = 'dashboard';
-$user_email   = $_SESSION['user']['email'] ?? 'Student';
+$user_id    = (int) ($_SESSION['user']['id'] ?? 0);
+$user_email = $_SESSION['user']['email'] ?? 'Student';
 $display_name = $_SESSION['user']['firstname']
     ?? (strstr($user_email, '@', true) ?: $user_email);
+
+// Live counts from the user_certifications table.
+$count_stmt = $pdo->prepare(
+    "SELECT
+        SUM(status = 'earned')      AS earned,
+        SUM(status = 'in_progress') AS in_progress
+     FROM user_certifications
+     WHERE user_id = :uid"
+);
+$count_stmt->execute([':uid' => $user_id]);
+$row = $count_stmt->fetch();
+$cert_earned   = (int) ($row['earned'] ?? 0);
+$cert_progress = (int) ($row['in_progress'] ?? 0);
 
 require_once __DIR__ . '/includes/head.php';
 require_once __DIR__ . '/includes/nav-portal.php';
@@ -29,7 +44,7 @@ require_once __DIR__ . '/includes/nav-portal.php';
           <div class="dash-card">
             <div class="dash-icon"><i class="fa fa-certificate"></i></div>
             <h4>My Certifications</h4>
-            <p>0 active &middot; 0 in progress</p>
+            <p><?= $cert_earned ?> earned &middot; <?= $cert_progress ?> in progress</p>
             <a href="certifications.php" class="dash-link">View all &rarr;</a>
           </div>
         </div>
