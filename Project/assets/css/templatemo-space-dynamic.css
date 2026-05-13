@@ -193,7 +193,7 @@ body {
 }
 
 .section-heading h2 span {
-  color: #fe3f40;
+  color: #03a4ed;
 }
 
 .main-blue-button a {
@@ -210,7 +210,7 @@ body {
 
 .main-red-button a {
   display: inline-block;
-  background-color: #fe3f40;
+  background-color: #03a4ed;
   font-size: 15px;
   font-weight: 400;
   color: #fff;
@@ -225,7 +225,7 @@ body {
   background-color: #fff;
   font-size: 15px;
   font-weight: 400;
-  color: #fe3f40;
+  color: #03a4ed;
   text-transform: capitalize;
   padding: 12px 25px;
   border-radius: 23px;
@@ -254,11 +254,11 @@ header
 }
 
 .background-header .main-nav .nav li:hover a {
-  color: #fe3f40!important;
+  color: #03a4ed!important;
 }
 
 .background-header .nav li a.active {
-  color: #fe3f40!important;
+  color: #03a4ed!important;
 }
 
 .header-area {
@@ -308,7 +308,7 @@ header
 }
 
 .logo h4 span {
-  color: #fe3f40;
+  color: #03a4ed;
 }
 
 .background-header .main-nav .logo h4 {
@@ -376,18 +376,18 @@ header
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #fe3f40!important;
+  color: #03a4ed!important;
 }
 
 .background-header .main-nav .nav li:hover a,
 .background-header .main-nav .nav li a.active {
-  color: #fe3f40!important;
+  color: #03a4ed!important;
   opacity: 1;
 }
 
 .header-area .main-nav .nav li:last-child a:hover ,
 .background-header .main-nav .nav li:last-child a:hover {
-  background-color: #03a4ed;
+  background-color: #0277b6;
 }
 
 .header-area .main-nav .nav li.submenu {
@@ -448,7 +448,7 @@ header
 
 .header-area .main-nav .nav li.submenu ul li a:hover {
   background: #fff;
-  color: #fe3f40!important;
+  color: #03a4ed!important;
   padding-left: 25px;
 }
 
@@ -588,7 +588,7 @@ header
 }
 
 .header-area.header-sticky .nav li a.active {
-  color: #fe3f40;
+  color: #03a4ed;
 }
 
 @media (max-width: 1200px) {
@@ -621,7 +621,7 @@ header
   }
   .header-area.header-sticky .nav li a:hover,
   .header-area.header-sticky .nav li a.active {
-    color: #fe3f40!important;
+    color: #03a4ed!important;
     opacity: 1;
   }
   .header-area.header-sticky .nav li.search-icon a {
@@ -682,7 +682,7 @@ header
   }
   .header-area .main-nav .nav li a:hover {
     background: #eee !important;
-    color: #fe3f40!important;
+    color: #03a4ed!important;
   }
   .header-area .main-nav .nav li.submenu ul {
     position: relative;
@@ -796,7 +796,7 @@ preloader
     height: 16px;
     top: 12px;
     left: 15px;
-    background: #fe3f40;
+    background: #03a4ed;
     border-radius: 50%;
     -webkit-transform: translateX(0);
     transform: translateX(0);
@@ -819,7 +819,7 @@ preloader
     width: 16px;
     height: 16px;
     margin-left: 16px;
-    background: #fe3f40;
+    background: #03a4ed;
     border-radius: 50%;
 }
 
@@ -869,7 +869,7 @@ Banner Style
 .main-banner .left-content h6 {
   text-transform: uppercase;
   font-size: 18px;
-  color: #fe3f40;
+  color: #03a4ed;
   margin-bottom: 15px;
 }
 
@@ -886,7 +886,7 @@ Banner Style
 }
 
 .main-banner .left-content h2 span {
-  color: #fe3f40;
+  color: #03a4ed;
 }
 
 .main-banner .left-content p {
@@ -908,7 +908,7 @@ Banner Style
   background-color: #fff;
   font-size: 15px;
   font-weight: 500;
-  color: #fe3f40;
+  color: #03a4ed;
   text-transform: capitalize;
   padding: 12px 25px;
   border-radius: 23px;
@@ -1051,8 +1051,8 @@ Services Style
 }
 
 .our-services .progress-skill-bar .filled-bar {
-  background: rgb(255,77,30);
-  background: linear-gradient(105deg, rgba(255,77,30,1) 0%, rgba(255,44,109,1) 100%);
+  background: rgb(3,164,237);
+  background: linear-gradient(105deg, rgba(3,164,237,1) 0%, rgba(2,119,182,1) 100%);
   height: 6px;
   border-radius: 3px;
   margin-bottom: -6px;
@@ -1107,8 +1107,8 @@ Portfolio
 }
 
 .our-portfolio .hidden-content {
-  background: rgb(255,77,30);
-  background: linear-gradient(105deg, rgba(255,77,30,1) 0%, rgba(255,44,109,1) 100%);
+  background: rgb(3,164,237);
+  background: linear-gradient(105deg, rgba(3,164,237,1) 0%, rgba(2,119,182,1) 100%);
   padding: 30px;
   border-radius: 20px;
   text-align: center;
@@ -1124,13 +1124,13 @@ Portfolio
   width: 20px;
   height: 20px;
   position: absolute;
-  background: rgb(255,77,30);
+  background: rgb(3,164,237);
   content: '';
   left: 50%;
   bottom: -8px;
   margin-left: -5px;
   transform: rotate(45deg);
-  background: linear-gradient(105deg, rgba(255,52,69,1) 0%, rgba(255,51,78,1) 100%);
+  background: linear-gradient(105deg, rgba(3,164,237,1) 0%, rgba(2,119,182,1) 100%);
   z-index: -1;
 }
 
@@ -1223,7 +1223,7 @@ Blog
 }
 
 .our-blog .left-image ul li i {
-  color: #ff4d61;
+  color: #03a4ed;
   font-size: 16px;
   margin-right: 8px;
 }
@@ -1262,7 +1262,7 @@ Blog
 }
 
 .our-blog .right-list .left-content span i {
-  color: #ff4d61;
+  color: #03a4ed;
   font-size: 16px;
   margin-right: 8px;
 }
@@ -1324,7 +1324,7 @@ contact
   line-height: 46px;
   background-color: #fff;
   border-radius: 50%;
-  color: #ff3b2c;
+  color: #03a4ed;
   font-size: 22px;
   margin-left: 30px;
   margin-right: 15px;
@@ -1410,7 +1410,7 @@ form#contact button {
 }
 
 form#contact button:hover {
-  background-color: #fe3f40;
+  background-color: #0277b6;
 }
 
 
@@ -1426,7 +1426,7 @@ footer p {
 }
 
 footer p a {
-  color: #fe3f40;
+  color: #03a4ed;
 }
 
 /* 
@@ -1476,8 +1476,8 @@ responsive
     text-align: center;
   }
   .about-us .services .item  {
-    background: rgb(255,77,30);
-    background: linear-gradient(105deg, rgba(255,77,30,1) 0%, rgba(255,44,109,1) 100%);
+    background: rgb(3,164,237);
+    background: linear-gradient(105deg, rgba(3,164,237,1) 0%, rgba(2,119,182,1) 100%);
     padding: 30px;
     border-radius: 20px;
     display: inline-block;
