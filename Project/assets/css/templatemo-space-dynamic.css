@@ -2332,6 +2332,64 @@ My Certifications page
   }
 }
 
+/*
+---------------------------------------------
+Contact (post-login) page
+---------------------------------------------
+*/
+
+.contact-page {
+  background-color: #f2eedb;
+  padding: 180px 0px 120px 0px;
+  min-height: 100vh;
+}
+
+.contact-hello {
+  margin-bottom: 50px;
+}
+
+.contact-hello h6 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c9a44a;
+  margin-bottom: 14px;
+}
+
+.contact-hello h2 {
+  font-size: 38px;
+  font-weight: 700;
+  color: #0b2342;
+  line-height: 52px;
+  margin-bottom: 14px;
+}
+
+.contact-hello h2 em {
+  color: #0b2342;
+  font-style: normal;
+}
+
+.contact-hello h2 span {
+  color: #c9a44a;
+}
+
+.contact-hello p {
+  color: #2a2a2a;
+  max-width: 640px;
+  margin: 0;
+}
+
+@media (max-width: 992px) {
+  .contact-page {
+    padding: 140px 0px 80px 0px;
+  }
+  .contact-hello h2 {
+    font-size: 28px;
+    line-height: 40px;
+  }
+}
+
 /* 
 ---------------------------------------------
 responsive
