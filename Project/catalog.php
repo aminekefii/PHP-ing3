@@ -14,7 +14,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cert_id'])) {
     $cert_id  = (int) $_POST['cert_id'];
     $password = $_POST['password'] ?? '';
 
-    if ($password === '') {
+    // Compute the currently allowed (featured) certification ids to guard the POST.
+    $featured_check = $pdo->query(
+        "SELECT id FROM certifications
+         ORDER BY
+            category,
+            CASE WHEN code = 'PCEP' THEN 0
+                 WHEN code = 'PCAP' THEN 1
+                 ELSE 2 END,
+            provider,
+            code
+         LIMIT 3"
+    )->fetchAll();
+    $allowed_ids = array_map(static fn($r) => (int) $r['id'], $featured_check);
+
+    if (!in_array($cert_id, $allowed_ids, true)) {
+        $flash = 'That certification is not currently open for enrolment.';
+        $flash_type = 'error';
+    } elseif ($password === '') {
         $flash = 'Please enter your password to confirm the enrolment.';
         $flash_type = 'error';
     } else {
@@ -77,6 +94,10 @@ $all = $pdo->query(
         code"
 )->fetchAll();
 
+// Only the first three certifications in the rendering order can be enrolled in for now.
+$featured_limit = 3;
+$featured_ids   = array_map(static fn($r) => (int) $r['id'], array_slice($all, 0, $featured_limit));
+
 $grouped = ['technical' => [], 'linguistic' => [], 'other' => []];
 foreach ($all as $c) {
     $grouped[$c['category']][] = $c;
@@ -131,9 +152,12 @@ require_once __DIR__ . '/includes/nav-portal.php';
                 <h4><?= htmlspecialchars($c['name']) ?></h4>
                 <p><?= htmlspecialchars($c['description']) ?></p>
                 <div class="cat-action">
+                  <?php
+                    $is_featured = in_array((int) $c['id'], $featured_ids, true);
+                  ?>
                   <?php if ($is_enrolled): ?>
                     <span class="enrolled-pill"><i class="fa fa-check"></i> Enrolled</span>
-                  <?php else: ?>
+                  <?php elseif ($is_featured): ?>
                     <button type="button"
                             class="enroll-btn"
                             data-bs-toggle="modal"
@@ -142,6 +166,10 @@ require_once __DIR__ . '/includes/nav-portal.php';
                             data-cert-name="<?= htmlspecialchars($c['name']) ?>"
                             data-cert-code="<?= htmlspecialchars($c['code']) ?>">
                       Enroll &rarr;
+                    </button>
+                  <?php else: ?>
+                    <button type="button" class="enroll-btn is-locked" disabled aria-disabled="true" title="Not open for enrolment yet">
+                      <i class="fa fa-lock"></i> Locked
                     </button>
                   <?php endif; ?>
                 </div>

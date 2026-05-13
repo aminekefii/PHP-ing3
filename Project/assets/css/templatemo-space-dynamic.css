@@ -2869,6 +2869,26 @@ Catalog page
   color: #0b2342;
 }
 
+.enroll-btn.is-locked,
+.enroll-btn:disabled {
+  background-color: #e6e2d4;
+  color: #8a8170;
+  cursor: not-allowed;
+  border: 1px dashed rgba(11, 35, 66, 0.2);
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+
+.enroll-btn.is-locked i {
+  margin-right: 6px;
+  color: #8a8170;
+}
+
+.catalog-card:has(.enroll-btn.is-locked) {
+  opacity: 0.85;
+  border-top-color: rgba(11, 35, 66, 0.25);
+}
+
 .enrolled-pill {
   display: inline-flex;
   align-items: center;
