@@ -22,3 +22,21 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`email`, `password`, `firstname`, `lastname`) VALUES
   ('user1@tek-up.de', '123456789', 'User', 'One'),
   ('user2@tek-up.de', '123456789', 'User', 'Two');
+
+-- Profile table. One row per user. user_id doubles as the student ID
+-- (rendered as TU-00001, TU-00002...) and is the foreign key to users.id.
+DROP TABLE IF EXISTS `profiles`;
+CREATE TABLE `profiles` (
+  `user_id`    INT NOT NULL PRIMARY KEY,
+  `phone`      VARCHAR(50)  DEFAULT NULL,
+  `address`    VARCHAR(255) DEFAULT NULL,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_profiles_user`
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Seed empty profiles for the two users.
+INSERT INTO `profiles` (`user_id`, `phone`, `address`) VALUES
+  (1, NULL, NULL),
+  (2, NULL, NULL);
