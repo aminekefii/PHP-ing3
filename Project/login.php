@@ -8,6 +8,8 @@ if (!empty($_SESSION['user'])) {
     exit;
 }
 
+require_once __DIR__ . '/includes/db.php';
+
 $error = '';
 $email_input = '';
 
@@ -20,14 +22,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!filter_var($email_input, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
     } else {
-        // Placeholder authentication: accept any valid input.
-        // Replace with a real check (DB lookup + password_verify) when ready.
-        $_SESSION['user'] = [
-            'email'        => $email_input,
-            'logged_in_at' => time(),
-        ];
-        header('Location: dashboard.php');
-        exit;
+        $stmt = $pdo->prepare('SELECT id, email, password, firstname, lastname FROM users WHERE email = :email LIMIT 1');
+        $stmt->execute([':email' => $email_input]);
+        $user = $stmt->fetch();
+
+        // Plain-text password check, as agreed for simplicity.
+        // For production, store password_hash() values and use password_verify($password, $user['password']).
+        if ($user && hash_equals((string) $user['password'], (string) $password)) {
+            $_SESSION['user'] = [
+                'id'           => (int) $user['id'],
+                'email'        => $user['email'],
+                'firstname'    => $user['firstname'],
+                'lastname'     => $user['lastname'],
+                'logged_in_at' => time(),
+            ];
+            header('Location: dashboard.php');
+            exit;
+        }
+
+        $error = 'Invalid email or password.';
     }
 }
 

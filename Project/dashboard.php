@@ -3,8 +3,9 @@ require_once __DIR__ . '/includes/auth.php';
 
 $page_title = 'Dashboard — TEK-UP Certified Students';
 $active     = 'dashboard';
-$user_email = $_SESSION['user']['email'] ?? 'Student';
-$display_name = strstr($user_email, '@', true) ?: $user_email;
+$user_email   = $_SESSION['user']['email'] ?? 'Student';
+$display_name = $_SESSION['user']['firstname']
+    ?? (strstr($user_email, '@', true) ?: $user_email);
 
 require_once __DIR__ . '/includes/head.php';
 require_once __DIR__ . '/includes/nav-portal.php';

@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $profile = $_SESSION['profile'] ?? [
-    'firstname' => '',
-    'lastname'  => '',
+    'firstname' => $_SESSION['user']['firstname'] ?? '',
+    'lastname'  => $_SESSION['user']['lastname'] ?? '',
     'email'     => $user_email,
     'phone'     => '',
     'studentid' => '',
