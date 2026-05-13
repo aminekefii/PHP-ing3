@@ -948,10 +948,8 @@ About Us Style
 }
 
 .about-us {
-  background-image: url(../images/about-bg.png);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  background-color: #d1f3ff;
+  background-image: none;
   padding: 140px 0px 120px 0px;
 }
 
@@ -973,14 +971,14 @@ About Us Style
 }
 
 .about-us .services .item h4 {
-  color: #fff;
+  color: #2a2a2a;
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 12px;
 }
 
 .about-us .services .item p {
-  color: #fff;
+  color: #2a2a2a;
 }
 
 
