@@ -1672,6 +1672,123 @@ Login page
   }
 }
 
+/*
+---------------------------------------------
+Dashboard page
+---------------------------------------------
+*/
+
+.dashboard-page {
+  background-color: #f2eedb;
+  padding: 180px 0px 120px 0px;
+  min-height: 100vh;
+}
+
+.dashboard-hello {
+  margin-bottom: 60px;
+}
+
+.dashboard-hello h6 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c9a44a;
+  margin-bottom: 14px;
+}
+
+.dashboard-hello h2 {
+  font-size: 38px;
+  font-weight: 700;
+  color: #0b2342;
+  line-height: 52px;
+  margin-bottom: 14px;
+}
+
+.dashboard-hello h2 em {
+  color: #0b2342;
+  font-style: normal;
+}
+
+.dashboard-hello h2 span {
+  color: #c9a44a;
+}
+
+.dashboard-hello p {
+  color: #2a2a2a;
+  max-width: 640px;
+  margin: 0;
+}
+
+.dashboard-cards .dash-card {
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: 0 18px 40px rgba(11, 35, 66, 0.08);
+  border-top: 3px solid #c9a44a;
+  height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-cards .dash-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px rgba(11, 35, 66, 0.14);
+}
+
+.dashboard-cards .dash-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #0b2342;
+  color: #c9a44a;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-cards .dash-card h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0b2342;
+  margin-bottom: 8px;
+}
+
+.dashboard-cards .dash-card p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 22px;
+  margin-bottom: 18px;
+}
+
+.dashboard-cards .dash-link {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #c9a44a;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.dashboard-cards .dash-link:hover {
+  color: #0b2342;
+}
+
+.dashboard-cards [class*="col-"] {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 992px) {
+  .dashboard-page {
+    padding: 140px 0px 80px 0px;
+  }
+  .dashboard-hello h2 {
+    font-size: 28px;
+    line-height: 40px;
+  }
+}
+
 /* 
 ---------------------------------------------
 responsive
