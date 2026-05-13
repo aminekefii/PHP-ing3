@@ -64,7 +64,18 @@ $mine->execute([':uid' => $user_id]);
 $enrolled_ids = array_map('intval', array_column($mine->fetchAll(), 'certification_id'));
 
 // Read full catalog and group by category.
-$all = $pdo->query('SELECT id, code, name, provider, category, description FROM certifications ORDER BY category, provider, code')->fetchAll();
+// PCEP then PCAP are pinned to the top of the Technical section.
+$all = $pdo->query(
+    "SELECT id, code, name, provider, category, description
+     FROM certifications
+     ORDER BY
+        category,
+        CASE WHEN code = 'PCEP' THEN 0
+             WHEN code = 'PCAP' THEN 1
+             ELSE 2 END,
+        provider,
+        code"
+)->fetchAll();
 
 $grouped = ['technical' => [], 'linguistic' => [], 'other' => []];
 foreach ($all as $c) {
