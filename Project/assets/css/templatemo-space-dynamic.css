@@ -324,7 +324,11 @@ header
 }
 
 .logo h4 span {
-  color: #03a4ed;
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
 }
 
 .background-header .main-nav .logo h4 {
