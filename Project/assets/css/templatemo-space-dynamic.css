@@ -2576,6 +2576,54 @@ Empty state + enroll modal (My Certifications)
   color: #0b2342;
 }
 
+.enroll-modal .enroll-cert-code {
+  color: #c9a44a;
+  font-weight: 700;
+}
+
+.enroll-modal fieldset {
+  margin-bottom: 18px;
+}
+
+.enroll-password-input {
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  background-color: #f2eedb;
+  border: 1px solid transparent;
+  outline: none;
+  font-size: 15px;
+  font-weight: 400;
+  color: #0b2342;
+  padding: 0 18px;
+  text-align: center;
+  letter-spacing: 4px;
+  transition: all 0.25s ease;
+}
+
+.enroll-password-input::placeholder {
+  color: #8a8170;
+  letter-spacing: 0;
+}
+
+.enroll-password-input:focus {
+  background-color: #fff;
+  border-color: #c9a44a;
+  box-shadow: 0 0 0 4px rgba(201, 164, 74, 0.18);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .certs-filters .catalog-chip {
   background-color: #c9a44a;
   border-color: #c9a44a;
