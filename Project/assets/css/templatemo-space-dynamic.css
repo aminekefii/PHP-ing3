@@ -913,13 +913,13 @@ Banner Style
   margin: 20px 0px;
 }
 
-.main-banner .left-content .pillars {
+.pillars {
   margin: 20px 0px;
   padding-left: 22px;
   list-style: disc;
 }
 
-.main-banner .left-content .pillars li {
+.pillars li {
   list-style: disc;
   font-size: 15px;
   line-height: 30px;
@@ -927,7 +927,7 @@ Banner Style
   margin-bottom: 4px;
 }
 
-.main-banner .left-content .pillars li::marker {
+.pillars li::marker {
   color: #c9a44a;
 }
 
@@ -1464,6 +1464,212 @@ footer p {
 
 footer p a {
   color: #0b2342;
+}
+
+/*
+---------------------------------------------
+Login page
+---------------------------------------------
+*/
+
+.login-page {
+  background-color: #f2eedb;
+  padding: 200px 0px 120px 0px;
+  min-height: 100vh;
+}
+
+.login-page .login-intro h6 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c9a44a;
+  margin-bottom: 18px;
+}
+
+.login-page .login-intro h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: #0b2342;
+  line-height: 56px;
+  margin-bottom: 18px;
+}
+
+.login-page .login-intro h2 em {
+  color: #0b2342;
+  font-style: normal;
+}
+
+.login-page .login-intro h2 span {
+  color: #c9a44a;
+}
+
+.login-page .login-intro p {
+  color: #2a2a2a;
+  margin-bottom: 14px;
+}
+
+.login-card {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 50px 40px;
+  box-shadow: 0 24px 60px rgba(11, 35, 66, 0.12);
+  border-top: 4px solid #c9a44a;
+  margin-left: 30px;
+}
+
+.login-card-heading {
+  margin-bottom: 30px;
+}
+
+.login-card-heading h3 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0b2342;
+  margin-bottom: 6px;
+  letter-spacing: 0.25px;
+}
+
+.login-card-heading p {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.login-card fieldset {
+  margin-bottom: 18px;
+}
+
+.login-card label[for] {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0b2342;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.login-card input[type="email"],
+.login-card input[type="password"] {
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  background-color: #f2eedb;
+  border: 1px solid transparent;
+  outline: none;
+  font-size: 15px;
+  font-weight: 400;
+  color: #0b2342;
+  padding: 0px 18px;
+  transition: all 0.25s ease;
+}
+
+.login-card input[type="email"]::placeholder,
+.login-card input[type="password"]::placeholder {
+  color: #8a8170;
+}
+
+.login-card input[type="email"]:focus,
+.login-card input[type="password"]:focus {
+  background-color: #fff;
+  border-color: #c9a44a;
+  box-shadow: 0 0 0 4px rgba(201, 164, 74, 0.18);
+}
+
+.login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 22px 0;
+  font-size: 14px;
+}
+
+.login-row .remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #2a2a2a;
+  margin: 0;
+  cursor: pointer;
+}
+
+.login-row .remember input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0b2342;
+  cursor: pointer;
+}
+
+.login-row .forgot {
+  color: #c9a44a;
+  font-weight: 600;
+  letter-spacing: 0.25px;
+  transition: color 0.2s ease;
+}
+
+.login-row .forgot:hover {
+  color: #0b2342;
+}
+
+.login-card button[type="submit"] {
+  display: block;
+  width: 100%;
+  background-color: #0b2342;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login-card button[type="submit"]:hover {
+  background-color: #c9a44a;
+  color: #0b2342;
+}
+
+.signup-line {
+  text-align: center;
+  font-size: 14px;
+  color: #2a2a2a;
+  margin: 22px 0 0 0;
+}
+
+.signup-line a {
+  color: #0b2342;
+  font-weight: 600;
+}
+
+.signup-line a:hover {
+  color: #c9a44a;
+}
+
+@media (max-width: 992px) {
+  .login-page {
+    padding: 160px 0px 80px 0px;
+  }
+  .login-page .login-intro {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .login-page .login-intro h2 {
+    font-size: 32px;
+    line-height: 44px;
+  }
+  .login-page .login-intro .pillars {
+    display: inline-block;
+    text-align: left;
+  }
+  .login-card {
+    margin-left: 0;
+  }
 }
 
 /* 
