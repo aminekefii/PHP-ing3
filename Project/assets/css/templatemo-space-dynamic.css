@@ -1287,20 +1287,18 @@ contact
 
 .contact-us {
   padding: 160px 0px;
-  background-image: url(../images/contact-bg.png);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  background-color: #d1f3ff;
+  background-image: none;
 }
 
 .contact-us .section-heading h2,
 .contact-us .section-heading h2 em,
 .contact-us .section-heading h2 span {
-  color: #fff;
+  color: #2a2a2a;
 }
 
 .contact-us .section-heading p {
-  color: #fff;
+  color: #2a2a2a;
   margin-top: 30px;
 }
 
@@ -1311,7 +1309,7 @@ contact
 .phone-info h4 {
   font-size: 20px;
   font-weight: 700;
-  color: #fff;
+  color: #2a2a2a;
 }
 
 .phone-info h4 span i {
@@ -1329,7 +1327,7 @@ contact
 }
 
 .phone-info h4 span a {
-  color: #fff;
+  color: #03a4ed;
   font-size: 15px;
   font-weight: 400;
 }
