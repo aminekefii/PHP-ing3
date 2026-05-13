@@ -6,6 +6,35 @@ $page_title = 'My Certifications — TEK-UP Certified Students';
 $active     = 'certifications';
 $user_id    = (int) ($_SESSION['user']['id'] ?? 0);
 
+$flash = '';
+$flash_type = '';
+
+// Cancel an in-progress enrolment (earned rows can't be cancelled).
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_cert_id'])) {
+    $cancel_id = (int) $_POST['cancel_cert_id'];
+
+    try {
+        $del = $pdo->prepare(
+            "DELETE FROM user_certifications
+             WHERE user_id = :uid
+               AND certification_id = :cid
+               AND status = 'in_progress'"
+        );
+        $del->execute([':uid' => $user_id, ':cid' => $cancel_id]);
+
+        if ($del->rowCount() > 0) {
+            $flash = 'Enrolment cancelled.';
+            $flash_type = 'success';
+        } else {
+            $flash = 'That enrolment could not be cancelled.';
+            $flash_type = 'error';
+        }
+    } catch (PDOException $e) {
+        $flash = 'Could not cancel the enrolment. Please try again.';
+        $flash_type = 'error';
+    }
+}
+
 // Pull this user's certifications joined with the catalog.
 $stmt = $pdo->prepare(
     "SELECT
@@ -64,6 +93,14 @@ require_once __DIR__ . '/includes/nav-portal.php';
         </div>
       </div>
 
+      <?php if ($flash !== ''): ?>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-notice is-<?= htmlspecialchars($flash_type) ?>"><?= htmlspecialchars($flash) ?></div>
+          </div>
+        </div>
+      <?php endif; ?>
+
       <div class="row certs-stats">
         <div class="col-md-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
           <div class="stat-card">
@@ -117,7 +154,16 @@ require_once __DIR__ . '/includes/nav-portal.php';
                 <a href="#" class="cert-action">View certificate &rarr;</a>
               <?php else: ?>
                 <span><i class="fa fa-clock-o"></i> Enrolled <?= htmlspecialchars(date('d M Y', strtotime($c['enrolled_at']))) ?></span>
-                <a href="#" class="cert-action">Continue &rarr;</a>
+                <div class="cert-card-actions">
+                  <a href="#" class="cert-action">Continue &rarr;</a>
+                  <button type="button"
+                          class="cert-cancel-btn"
+                          data-bs-toggle="modal"
+                          data-bs-target="#cancelConfirmModal"
+                          data-cert-id="<?= (int) $c['id'] ?>"
+                          data-cert-name="<?= htmlspecialchars($c['name']) ?>"
+                          data-cert-code="<?= htmlspecialchars($c['code']) ?>">Cancel</button>
+                </div>
               <?php endif; ?>
             </div>
           </article>
@@ -162,5 +208,44 @@ require_once __DIR__ . '/includes/nav-portal.php';
     });
   </script>
   <?php endif; ?>
+
+  <!-- Cancel-confirmation modal (shared by every in-progress card's Cancel button) -->
+  <div class="modal fade" id="cancelConfirmModal" tabindex="-1" aria-labelledby="cancelConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content enroll-modal cancel-modal">
+        <form action="certifications.php<?= $active_filter !== 'all' ? '?filter=' . urlencode($active_filter) : '' ?>" method="post">
+          <div class="modal-body">
+            <div class="enroll-icon cancel-icon"><i class="fa fa-exclamation-triangle"></i></div>
+            <h4 id="cancelConfirmLabel">Cancel this enrolment?</h4>
+            <p>You are about to cancel your enrolment in <strong id="cancelCertName">&mdash;</strong> <span class="enroll-cert-code" id="cancelCertCode"></span>. Your progress will be lost. You can re-enroll later from the catalog.</p>
+
+            <input type="hidden" name="cancel_cert_id" id="cancelCertId" value="">
+
+            <div class="enroll-actions">
+              <button type="submit" class="main-button danger">Yes, cancel enrolment</button>
+              <button type="button" class="cancel-link" data-bs-dismiss="modal">Keep my enrolment</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var modalEl = document.getElementById('cancelConfirmModal');
+      if (!modalEl) return;
+
+      modalEl.addEventListener('show.bs.modal', function (event) {
+        var btn = event.relatedTarget;
+        if (!btn) return;
+        document.getElementById('cancelCertId').value         = btn.getAttribute('data-cert-id') || '';
+        document.getElementById('cancelCertName').textContent = btn.getAttribute('data-cert-name') || '';
+        var codeEl = document.getElementById('cancelCertCode');
+        var code = btn.getAttribute('data-cert-code');
+        codeEl.textContent = code ? '(' + code + ')' : '';
+      });
+    });
+  </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

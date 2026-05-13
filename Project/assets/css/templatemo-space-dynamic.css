@@ -1789,6 +1789,51 @@ Dashboard page
   }
 }
 
+/* Cancel-enrolment button on My Certifications cards (sits next to Continue) */
+
+.cert-card-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cert-cancel-btn {
+  background-color: transparent;
+  border: 1px solid rgba(11, 35, 66, 0.2);
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cert-cancel-btn:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+  color: #fff;
+}
+
+/* Cancel confirmation modal — reuses .enroll-modal layout, adds danger accents */
+
+.cancel-modal .cancel-icon {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+.cancel-modal .main-button.danger {
+  background-color: #c0392b;
+}
+
+.cancel-modal .main-button.danger:hover {
+  background-color: #0b2342;
+  color: #fff;
+}
+
 /*
 ---------------------------------------------
 Profile page
