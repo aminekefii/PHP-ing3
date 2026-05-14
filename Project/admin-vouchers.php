@@ -7,6 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
     if ($vid > 0 && in_array($action, ['approve', 'reject', 'reset'], true)) {
+        // Approve requires re-entering the admin password as a final guard.
+        if ($action === 'approve') {
+            $entered = (string) ($_POST['admin_password'] ?? '');
+            if (!hash_equals('admin', $entered)) {
+                header('Location: admin-vouchers.php?flash=bad_password');
+                exit;
+            }
+        }
+
         $new_status = ['approve' => 'approved', 'reject' => 'rejected', 'reset' => 'pending'][$action];
         $upd = $pdo->prepare(
             'UPDATE voucher_requests SET status = :st WHERE id = :id'
@@ -51,10 +60,12 @@ foreach ($count_rows as $r) {
 
 $flash_action = $_GET['flash'] ?? null;
 $flash_text   = [
-    'approve' => 'Voucher approved.',
-    'reject'  => 'Voucher request declined.',
-    'reset'   => 'Status reset to pending.',
+    'approve'      => 'Voucher approved.',
+    'reject'       => 'Voucher request declined.',
+    'reset'        => 'Status reset to pending.',
+    'bad_password' => 'Incorrect admin password — the voucher was not approved.',
 ][$flash_action] ?? null;
+$flash_is_error = $flash_action === 'bad_password';
 
 $page_title = 'Voucher Requests — Admin';
 $active     = 'admin-vouchers';
@@ -79,7 +90,10 @@ require_once __DIR__ . '/includes/nav-admin.php';
       <?php if ($flash_text): ?>
         <div class="row">
           <div class="col-lg-12">
-            <div class="fe-flash"><i class="fa fa-check-circle" aria-hidden="true"></i><span><?= htmlspecialchars($flash_text) ?></span></div>
+            <div class="fe-flash<?= $flash_is_error ? ' is-error' : '' ?>">
+              <i class="fa <?= $flash_is_error ? 'fa-exclamation-triangle' : 'fa-check-circle' ?>" aria-hidden="true"></i>
+              <span><?= htmlspecialchars($flash_text) ?></span>
+            </div>
           </div>
         </div>
       <?php endif; ?>
@@ -145,14 +159,17 @@ require_once __DIR__ . '/includes/nav-admin.php';
                   </div>
                   <div class="fe-row__action admin-actions">
                     <?php if ($status === 'pending'): ?>
-                      <form method="post" action="admin-vouchers.php">
-                        <input type="hidden" name="voucher_id" value="<?= (int) $r['id'] ?>">
-                        <input type="hidden" name="action" value="approve">
-                        <button type="submit" class="wt-btn wt-btn--primary">
-                          <span>Approve</span>
-                          <span class="wt-btn-arrow" aria-hidden="true">→</span>
-                        </button>
-                      </form>
+                      <button type="button"
+                              class="wt-btn wt-btn--primary"
+                              data-bs-toggle="modal"
+                              data-bs-target="#approveVoucherModal"
+                              data-voucher-id="<?= (int) $r['id'] ?>"
+                              data-student-name="<?= htmlspecialchars($name, ENT_QUOTES) ?>"
+                              data-cert-name="<?= htmlspecialchars($r['cert_name'], ENT_QUOTES) ?>"
+                              data-cert-code="<?= htmlspecialchars($r['cert_code'], ENT_QUOTES) ?>">
+                        <span>Approve</span>
+                        <span class="wt-btn-arrow" aria-hidden="true">→</span>
+                      </button>
                       <form method="post" action="admin-vouchers.php">
                         <input type="hidden" name="voucher_id" value="<?= (int) $r['id'] ?>">
                         <input type="hidden" name="action" value="reject">
@@ -175,5 +192,74 @@ require_once __DIR__ . '/includes/nav-admin.php';
 
     </div>
   </div>
+
+  <!-- Approve-with-password modal (shared by every pending row) -->
+  <div class="modal fade" id="approveVoucherModal" tabindex="-1" aria-labelledby="approveVoucherLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content enroll-modal approve-modal">
+        <form method="post" action="admin-vouchers.php" autocomplete="off">
+          <div class="modal-body">
+            <div class="enroll-icon approve-icon"><i class="fa fa-key"></i></div>
+            <h4 id="approveVoucherLabel">Confirm voucher approval</h4>
+            <p>You are about to approve the voucher for
+              <strong id="approveStudentName">&mdash;</strong>
+              on <strong id="approveCertName">&mdash;</strong>
+              <span class="approve-cert-code" id="approveCertCode"></span>.
+              Re-enter your admin password to confirm.</p>
+
+            <input type="hidden" name="voucher_id" id="approveVoucherId" value="">
+            <input type="hidden" name="action" value="approve">
+
+            <div class="approve-pw-wrap">
+              <label for="approveAdminPw" class="approve-pw-label">Admin password</label>
+              <input type="password"
+                     name="admin_password"
+                     id="approveAdminPw"
+                     class="approve-pw-input"
+                     placeholder="••••••••"
+                     autocomplete="current-password"
+                     required>
+            </div>
+
+            <div class="enroll-actions">
+              <button type="submit" class="wt-btn wt-btn--primary">
+                <span>Confirm approval</span>
+                <span class="wt-btn-arrow" aria-hidden="true">→</span>
+              </button>
+              <button type="button" class="cancel-link" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var modalEl = document.getElementById('approveVoucherModal');
+      if (!modalEl) return;
+
+      var idEl   = document.getElementById('approveVoucherId');
+      var sName  = document.getElementById('approveStudentName');
+      var cName  = document.getElementById('approveCertName');
+      var cCode  = document.getElementById('approveCertCode');
+      var pwEl   = document.getElementById('approveAdminPw');
+
+      modalEl.addEventListener('show.bs.modal', function (event) {
+        var btn = event.relatedTarget;
+        if (!btn) return;
+        idEl.value      = btn.getAttribute('data-voucher-id') || '';
+        sName.textContent = btn.getAttribute('data-student-name') || '—';
+        cName.textContent = btn.getAttribute('data-cert-name')   || '—';
+        var code = btn.getAttribute('data-cert-code');
+        cCode.textContent = code ? '(' + code + ')' : '';
+        pwEl.value = '';
+      });
+
+      modalEl.addEventListener('shown.bs.modal', function () {
+        pwEl.focus();
+      });
+    });
+  </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
