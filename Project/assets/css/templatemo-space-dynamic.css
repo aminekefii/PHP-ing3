@@ -4058,4 +4058,22 @@ responsive
 /* Admin-cards grid: dashboard cards are evenly spaced, less crowded */
 .admin-cards > [class^="col-"] {
   margin-bottom: 18px;
+  display: flex;
+}
+
+/* Stretch the four cards to a uniform height, push the link to the bottom
+   so it sits on the same baseline across the row regardless of paragraph
+   length. */
+.admin-cards .dash-card-link {
+  display: flex;
+  width: 100%;
+}
+.admin-cards .dash-card-link .dash-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.admin-cards .dash-card-link .dash-card .dash-link {
+  margin-top: auto;
 }
