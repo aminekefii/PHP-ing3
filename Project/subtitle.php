@@ -37,6 +37,8 @@ if (!$enroll->fetchColumn()) {
     exit;
 }
 
+session_write_close();
+
 $relative = $row['cert_media_path'] . '/' . $row['section_folder'] . '/' . $row['subtitle_filename'];
 $path     = MEDIA_ROOT . '/' . $relative;
 $real     = realpath($path);

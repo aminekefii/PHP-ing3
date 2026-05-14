@@ -204,11 +204,6 @@ require_once __DIR__ . '/includes/nav-portal.php';
     // re-seeks past the 90% mark.
     let markedForId = null;
 
-    function currentRow() {
-        const id = video.dataset.videoId;
-        return document.querySelector('.course-video-row[data-video-id="' + id + '"]');
-    }
-
     function markWatched() {
         const id = video.dataset.videoId;
         if (markedForId === id) return;
@@ -221,11 +216,11 @@ require_once __DIR__ . '/includes/nav-portal.php';
             .then(r => r.json())
             .then(json => {
                 if (!json.ok) return;
-                // Bar.
                 barEl.style.width = json.progress + '%';
                 labelEl.textContent = json.progress;
-                // Row + section count.
-                const row = currentRow();
+                // Look up by the captured id — by the time this resolves, `ended` may
+                // have already swapped video.dataset.videoId to the next video.
+                const row = document.querySelector('.course-video-row[data-video-id="' + id + '"]');
                 if (row) {
                     row.querySelector('.status-mark').textContent = '✓';
                 }

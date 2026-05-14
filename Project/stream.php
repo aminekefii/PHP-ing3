@@ -40,6 +40,12 @@ if (!$enroll->fetchColumn()) {
     exit;
 }
 
+// Release the session lock before the long I/O. PHP's default file-based
+// sessions hold an exclusive lock for the whole request, so without this any
+// concurrent request from the same user (progress.php POSTs, refreshing
+// course.php, navigating back) blocks until this stream ends.
+session_write_close();
+
 // Resolve disk path and confine it under MEDIA_ROOT.
 $relative = $row['cert_media_path'] . '/' . $row['section_folder'] . '/' . $row['filename'];
 $path     = MEDIA_ROOT . '/' . $relative;
