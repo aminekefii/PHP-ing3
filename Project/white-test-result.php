@@ -85,7 +85,18 @@ require_once __DIR__ . '/includes/nav-portal.php';
               </div>
             <?php endforeach; ?>
           </div>
-          <!-- action buttons filled in Task 8 -->
+          <div class="wt-actions">
+            <?php if ($result['passed']): ?>
+              <a href="#" class="main-button">Final exam →</a>
+              <a href="dashboard.php" class="main-button is-secondary">Back to dashboard</a>
+            <?php else: ?>
+              <form method="post" action="white-test.php?cert=<?= (int) $cert_id ?>">
+                <input type="hidden" name="retake" value="1">
+                <button type="submit" class="main-button">Retake exam</button>
+              </form>
+              <a href="dashboard.php" class="main-button is-secondary">Back to dashboard</a>
+            <?php endif; ?>
+          </div>
 
         </div>
       </div>

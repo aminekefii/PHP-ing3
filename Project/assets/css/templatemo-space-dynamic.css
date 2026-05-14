@@ -3491,3 +3491,19 @@ responsive
 .wt-review-line .wt-pick.is-correct { color: #047857; }
 .wt-review-line .wt-pick.is-wrong   { color: #b91c1c; }
 .wt-review-line .wt-pick.is-missing { color: #9ca3af; font-style: italic; }
+
+.wt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+.wt-actions .main-button { margin: 0; }
+.wt-actions .main-button.is-secondary {
+  background-color: #fff;
+  color: #0b2342;
+  border: 1px solid #cbd5e1;
+}
+.wt-actions form { margin: 0; }
