@@ -209,27 +209,38 @@ require_once __DIR__ . '/includes/nav-portal.php';
         if (markedForId === id) return;
         markedForId = id;
 
-        // Optimistic UI: tick the row immediately so the user gets feedback
-        // even if the server response is slow or the JSON fails to parse.
+        // Optimistic UI: tick the row, recompute the cert bar and the section
+        // count locally so the user sees feedback even if the server response
+        // is slow or unparseable.
         const row = document.querySelector('.course-video-row[data-video-id="' + id + '"]');
         if (row) {
             row.querySelector('.status-mark').textContent = '✓';
+
+            const allRows = document.querySelectorAll('.course-video-row');
+            let watched = 0;
+            allRows.forEach(function (r) {
+                if (r.querySelector('.status-mark').textContent === '✓') watched++;
+            });
+            const pct = allRows.length ? Math.round(100 * watched / allRows.length) : 0;
+            barEl.style.width = pct + '%';
+            labelEl.textContent = pct;
+
+            const sectionId = row.dataset.sectionId;
+            const secRows = document.querySelectorAll('.course-video-row[data-section-id="' + sectionId + '"]');
+            let secWatched = 0;
+            secRows.forEach(function (r) {
+                if (r.querySelector('.status-mark').textContent === '✓') secWatched++;
+            });
+            const secCount = document.querySelector('.sec-count[data-section-id="' + sectionId + '"]');
+            if (secCount) secCount.textContent = secWatched + '/' + secRows.length;
         }
 
         const fd = new FormData();
         fd.append('video_id', id);
 
+        // Still POST so the server records the watched event and the
+        // certifications page reflects it on next visit.
         fetch('progress.php', { method: 'POST', body: fd, credentials: 'same-origin' })
-            .then(r => r.json())
-            .then(json => {
-                if (!json.ok) return;
-                barEl.style.width = json.progress + '%';
-                labelEl.textContent = json.progress;
-                const secCount = document.querySelector('.sec-count[data-section-id="' + json.section.id + '"]');
-                if (secCount) {
-                    secCount.textContent = json.section.watched + '/' + json.section.total;
-                }
-            })
             .catch(() => { markedForId = null; });
     }
 
