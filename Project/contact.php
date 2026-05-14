@@ -1,12 +1,18 @@
 <?php
-require_once __DIR__ . '/includes/auth.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once __DIR__ . '/includes/db.php';
 
-$page_title = 'Contact — TEK-UP Certified Students';
-$active     = 'contact';
+$is_logged_in = !empty($_SESSION['user']);
 
-$sent = false;
+$page_title    = 'Contact — TEK-UP Certified Students';
+$active        = 'contact';        // for nav-portal
+$public_active = 'contact';        // for nav-public
+
+$sent  = isset($_GET['sent']) && $_GET['sent'] === '1';
 $error = '';
-$form = ['name' => '', 'surname' => '', 'email' => '', 'message' => ''];
+$form  = ['name' => '', 'surname' => '', 'email' => '', 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['name']    = trim($_POST['name'] ?? '');
@@ -19,14 +25,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!filter_var($form['email'], FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
     } else {
-        // Placeholder: would normally email the office or persist to a DB.
-        $sent = true;
-        $form = ['name' => '', 'surname' => '', 'email' => '', 'message' => ''];
+        $ins = $pdo->prepare(
+            'INSERT INTO contact_messages (name, surname, email, message)
+             VALUES (:name, :surname, :email, :message)'
+        );
+        $ins->execute([
+            ':name'    => mb_substr($form['name'], 0, 100),
+            ':surname' => mb_substr($form['surname'], 0, 100),
+            ':email'   => mb_substr($form['email'], 0, 255),
+            ':message' => $form['message'],
+        ]);
+
+        // PRG so refresh doesn't resubmit.
+        header('Location: contact.php?sent=1');
+        exit;
     }
 }
 
 require_once __DIR__ . '/includes/head.php';
-require_once __DIR__ . '/includes/nav-portal.php';
+if ($is_logged_in) {
+    require_once __DIR__ . '/includes/nav-portal.php';
+} else {
+    require_once __DIR__ . '/includes/nav-public.php';
+}
 ?>
 
   <div class="contact-page section">

@@ -13,6 +13,10 @@ $pending_vouchers = (int) $pdo->query(
 $total_users = (int) $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
 $total_enrol = (int) $pdo->query("SELECT COUNT(*) FROM user_certifications")->fetchColumn();
 
+$unread_messages = (int) $pdo->query(
+    "SELECT COUNT(*) FROM contact_messages WHERE status = 'unread'"
+)->fetchColumn();
+
 require_once __DIR__ . '/includes/head.php';
 require_once __DIR__ . '/includes/nav-admin.php';
 ?>
@@ -76,7 +80,13 @@ require_once __DIR__ . '/includes/nav-admin.php';
             <div class="dash-card">
               <div class="dash-icon"><i class="fa fa-envelope-o"></i></div>
               <h4>Messages</h4>
-              <p>Inbound contact-form messages from students, recruiters and partners.</p>
+              <p>
+                <?php if ($unread_messages > 0): ?>
+                  <strong><?= $unread_messages ?></strong> new message<?= $unread_messages === 1 ? '' : 's' ?> in the inbox.
+                <?php else: ?>
+                  Inbox empty &mdash; no new contact-form messages.
+                <?php endif; ?>
+              </p>
               <span class="dash-link">Open inbox &rarr;</span>
             </div>
           </a>

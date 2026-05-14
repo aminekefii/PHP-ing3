@@ -169,3 +169,15 @@ CREATE TABLE IF NOT EXISTS `voucher_requests` (
   CONSTRAINT `fk_vr_user` FOREIGN KEY (`user_id`)          REFERENCES `users`(`id`)          ON DELETE CASCADE,
   CONSTRAINT `fk_vr_cert` FOREIGN KEY (`certification_id`) REFERENCES `certifications`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `contact_messages` (
+  `id`           INT AUTO_INCREMENT PRIMARY KEY,
+  `name`         VARCHAR(100) NOT NULL,
+  `surname`      VARCHAR(100) NOT NULL,
+  `email`        VARCHAR(255) NOT NULL,
+  `message`      TEXT NOT NULL,
+  `status`       ENUM('unread','read') NOT NULL DEFAULT 'unread',
+  `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  KEY `idx_status`    (`status`),
+  KEY `idx_submitted` (`submitted_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
