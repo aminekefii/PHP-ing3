@@ -3452,3 +3452,42 @@ responsive
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
+.wt-review {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.wt-review-item {
+  background-color: #fff;
+  border-radius: 12px;
+  border-left: 4px solid #c9a44a;
+  padding: 16px 20px;
+}
+.wt-review-item.is-correct { border-left-color: #10b981; }
+.wt-review-item.is-wrong   { border-left-color: #ef4444; }
+
+.wt-review-q {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0b2342;
+  margin-bottom: 8px;
+}
+.wt-review-line {
+  font-size: 13px;
+  color: #2a2a2a;
+  margin: 2px 0;
+}
+.wt-review-line .wt-label {
+  display: inline-block;
+  min-width: 110px;
+  color: #6b7280;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.wt-review-line .wt-pick { font-weight: 600; }
+.wt-review-line .wt-pick.is-correct { color: #047857; }
+.wt-review-line .wt-pick.is-wrong   { color: #b91c1c; }
+.wt-review-line .wt-pick.is-missing { color: #9ca3af; font-style: italic; }

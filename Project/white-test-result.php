@@ -61,7 +61,30 @@ require_once __DIR__ . '/includes/nav-portal.php';
             <div class="wt-result-meta">Passing score: 70 %</div>
           </div>
 
-          <!-- per-question review filled in Task 7 -->
+          <div class="wt-review">
+            <?php foreach ($result['per_question'] as $i => $r):
+              $user_letter   = $r['user_answer'];
+              $correct_letter= $r['correct_answer'];
+              $user_text     = $user_letter ? $user_letter . ') ' . $r['choices'][$user_letter] : '— no answer —';
+              $correct_text  = $correct_letter . ') ' . $r['choices'][$correct_letter];
+              $item_class    = $r['is_correct'] ? 'is-correct' : 'is-wrong';
+              $pick_class    = $r['is_correct'] ? 'is-correct' : ($user_letter ? 'is-wrong' : 'is-missing');
+            ?>
+              <div class="wt-review-item <?= $item_class ?>">
+                <div class="wt-review-q"><?= ($i + 1) ?>. <?= htmlspecialchars($r['question']) ?></div>
+                <div class="wt-review-line">
+                  <span class="wt-label">Your answer</span>
+                  <span class="wt-pick <?= $pick_class ?>"><?= htmlspecialchars($user_text) ?></span>
+                </div>
+                <?php if (!$r['is_correct']): ?>
+                  <div class="wt-review-line">
+                    <span class="wt-label">Correct answer</span>
+                    <span class="wt-pick is-correct"><?= htmlspecialchars($correct_text) ?></span>
+                  </div>
+                <?php endif; ?>
+              </div>
+            <?php endforeach; ?>
+          </div>
           <!-- action buttons filled in Task 8 -->
 
         </div>
