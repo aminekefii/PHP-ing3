@@ -23,6 +23,10 @@ $result    = white_test_score($cert_code, $wt['answers']);
 $stmt = $pdo->prepare('SELECT name, provider, code FROM certifications WHERE id = :id LIMIT 1');
 $stmt->execute([':id' => $cert_id]);
 $cert = $stmt->fetch();
+if (!$cert) {
+    header('Location: certifications.php');
+    exit;
+}
 
 $page_title = 'White Test — Result';
 $active     = 'certifications';
