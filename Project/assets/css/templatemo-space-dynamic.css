@@ -3278,6 +3278,45 @@ responsive
   background-color: #e5e7eb;
 }
 
+.test-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.test-meta-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 130px;
+  padding: 14px 18px;
+  background-color: #f7f3e3;
+  border-radius: 12px;
+  border: 1px solid #ecdfb5;
+}
+
+.test-meta-card i {
+  font-size: 20px;
+  color: #c9a44a;
+  margin-bottom: 6px;
+}
+
+.test-meta-card .test-meta-caption {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.test-meta-card .test-meta-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0b2342;
+  margin-top: 2px;
+}
+
 .course-stage .stage-meta {
   margin-top: 14px;
 }

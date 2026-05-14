@@ -60,6 +60,24 @@ require_once __DIR__ . '/includes/nav-portal.php';
               The white test is a final check of your knowledge before the official certification exam.
             </p>
             <a href="course.php?cert=<?= (int) $cert_id ?>" class="main-button" style="margin-top:16px;">Start the test</a>
+
+            <div class="test-meta">
+              <div class="test-meta-card">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <span class="test-meta-caption">Time limit</span>
+                <span class="test-meta-value">10 minutes</span>
+              </div>
+              <div class="test-meta-card">
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                <span class="test-meta-caption">Questions</span>
+                <span class="test-meta-value">5</span>
+              </div>
+              <div class="test-meta-card">
+                <i class="fa fa-percent" aria-hidden="true"></i>
+                <span class="test-meta-caption">Passing score</span>
+                <span class="test-meta-value">70%</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
