@@ -209,6 +209,13 @@ require_once __DIR__ . '/includes/nav-portal.php';
         if (markedForId === id) return;
         markedForId = id;
 
+        // Optimistic UI: tick the row immediately so the user gets feedback
+        // even if the server response is slow or the JSON fails to parse.
+        const row = document.querySelector('.course-video-row[data-video-id="' + id + '"]');
+        if (row) {
+            row.querySelector('.status-mark').textContent = '✓';
+        }
+
         const fd = new FormData();
         fd.append('video_id', id);
 
@@ -218,12 +225,6 @@ require_once __DIR__ . '/includes/nav-portal.php';
                 if (!json.ok) return;
                 barEl.style.width = json.progress + '%';
                 labelEl.textContent = json.progress;
-                // Look up by the captured id — by the time this resolves, `ended` may
-                // have already swapped video.dataset.videoId to the next video.
-                const row = document.querySelector('.course-video-row[data-video-id="' + id + '"]');
-                if (row) {
-                    row.querySelector('.status-mark').textContent = '✓';
-                }
                 const secCount = document.querySelector('.sec-count[data-section-id="' + json.section.id + '"]');
                 if (secCount) {
                     secCount.textContent = json.section.watched + '/' + json.section.total;
