@@ -1,0 +1,39 @@
+1.What is the correct way to print "Hello" in Python?
+A) echo("Hello")
+B) print("Hello")
+C) printf("Hello")
+D) show("Hello")
+
+Answer: B
+
+2.Which symbol is used for comments in Python?
+A) //
+B) <!-- -->
+C) #
+D) **
+
+Answer: C
+
+3.What is the result of 2 + 3 in Python?
+A) 5
+B) 23
+C) 6
+D) Error
+
+Answer: A
+
+4.Which data type is used for text in Python?
+A) int
+B) float
+C) str
+D) bool
+
+Answer: C
+
+5.Which keyword is used to create a function in Python?
+A) func
+B) define
+C) function
+D) def
+
+Answer: D
