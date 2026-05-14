@@ -22,6 +22,31 @@ if ($remaining <= 0) {
     exit;
 }
 
+// POST: record the selected answer, then advance (PRG redirect on every
+// branch so a browser refresh never re-submits).
+$post_error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $answer    = $_POST['answer'] ?? null;
+    $questions = white_test_questions($wt['cert_code']);
+    $is_last   = ((int) $wt['current_q'] === count($questions) - 1);
+
+    if (!in_array($answer, ['A', 'B', 'C', 'D'], true)) {
+        $post_error = 'Please select an answer to continue.';
+    } else {
+        $wt['answers'][$wt['current_q']] = $answer;
+
+        if ($is_last) {
+            $wt['submitted'] = true;
+            header('Location: white-test-result.php');
+            exit;
+        }
+
+        $wt['current_q']++;
+        header('Location: white-test-take.php');
+        exit;
+    }
+}
+
 $page_title = 'White Test — In progress';
 $active     = 'certifications';
 
@@ -46,6 +71,9 @@ $ss        = str_pad((string) ($remaining % 60), 2, '0', STR_PAD_LEFT);
         <span class="wt-timer" id="wtTimer"><?= $mm ?>:<?= $ss ?></span>
       </div>
 
+      <?php if (!empty($post_error)): ?>
+        <div class="form-notice is-error" style="margin-bottom: 12px;"><?= htmlspecialchars($post_error) ?></div>
+      <?php endif; ?>
       <form id="wtForm" method="post" action="white-test-take.php">
         <div class="wt-card">
           <div class="wt-question">
