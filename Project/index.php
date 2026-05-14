@@ -19,14 +19,7 @@ require_once __DIR__ . '/includes/nav-public.php';
                   <li>Knowledge through academic courses aligned with Industry 4.0.</li>
                   <li>Expertise through professional training by GAFAM, Cisco, Oracle and other global tech leaders.</li>
                 </ul>
-                <form id="search" action="#" method="GET">
-                  <fieldset>
-                    <input type="text" name="cert" class="email" placeholder="Search a certification (CCNP, AWS, OSCP, PCPP...)" autocomplete="on" required>
-                  </fieldset>
-                  <fieldset>
-                    <button type="submit" class="main-button">Find</button>
-                  </fieldset>
-                </form>
+             
               </div>
             </div>
             <div class="col-lg-6">
