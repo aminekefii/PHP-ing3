@@ -97,8 +97,14 @@
       var scrollPos = $(document).scrollTop();
       $('.nav a').each(function () {
           var currLink = $(this);
-          var refElement = $(currLink.attr("href"));
-          if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+          var href = currLink.attr("href");
+          // Skip cross-page links (catalog.php, logout.php, ...) — only run
+          // scroll-spy on real in-page anchors that exist in the DOM.
+          if (!href || href.charAt(0) !== '#' || href.length < 2) return;
+          var refElement = $(href);
+          if (!refElement.length) return;
+          var top = refElement.position().top;
+          if (top <= scrollPos && top + refElement.height() > scrollPos) {
               $('.nav ul li a').removeClass("active");
               currLink.addClass("active");
           }

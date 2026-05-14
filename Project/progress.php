@@ -60,6 +60,7 @@ $ins = $pdo->prepare(
 $ins->execute([':uid' => $user_id, ':vid' => $video_id]);
 
 // Recompute the cert-level percentage and push it onto user_certifications.
+// Placeholders must be unique because PDO::ATTR_EMULATE_PREPARES is false.
 $rollup = $pdo->prepare(
     "UPDATE user_certifications uc
      JOIN (
@@ -67,13 +68,16 @@ $rollup = $pdo->prepare(
                 ROUND(100 * SUM(vp.video_id IS NOT NULL) / NULLIF(COUNT(cv.id), 0)) AS pct
          FROM course_sections cs
          JOIN course_videos   cv ON cv.section_id = cs.id
-         LEFT JOIN video_progress vp ON vp.video_id = cv.id AND vp.user_id = :uid
-         WHERE cs.certification_id = :cid
+         LEFT JOIN video_progress vp ON vp.video_id = cv.id AND vp.user_id = :uid_inner
+         WHERE cs.certification_id = :cid_inner
      ) calc ON calc.certification_id = uc.certification_id
      SET uc.progress = COALESCE(calc.pct, 0)
-     WHERE uc.user_id = :uid AND uc.certification_id = :cid"
+     WHERE uc.user_id = :uid_outer AND uc.certification_id = :cid_outer"
 );
-$rollup->execute([':uid' => $user_id, ':cid' => $cert_id]);
+$rollup->execute([
+    ':uid_inner' => $user_id, ':cid_inner' => $cert_id,
+    ':uid_outer' => $user_id, ':cid_outer' => $cert_id,
+]);
 
 // Per-section counts for the response (used to refresh the left rail).
 $sec = $pdo->prepare(
