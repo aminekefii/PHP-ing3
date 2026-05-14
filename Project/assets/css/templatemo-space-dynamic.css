@@ -4089,6 +4089,39 @@ responsive
 }
 .fe-flash.is-error i { color: #b91c1c; }
 
+/* Action variant — flash banner with a primary button on the right
+   (used for the "Compose voucher email" prompt after Approve). */
+.fe-flash.has-action {
+  align-items: center;
+  gap: 18px;
+  padding: 16px 18px 16px 22px;
+}
+.fe-flash .fe-flash__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.fe-flash .fe-flash__sub {
+  font-size: 12px;
+  color: #6b5a2e;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.fe-flash .fe-flash__action {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .fe-flash.has-action {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .fe-flash .fe-flash__action { width: 100%; }
+}
+
 /* Approve-voucher password modal */
 .approve-modal .approve-icon {
   background-image: linear-gradient(135deg, #f8f1d4 0%, #e7dfb9 100%);

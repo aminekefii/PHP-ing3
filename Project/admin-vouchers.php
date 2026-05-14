@@ -21,10 +21,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'UPDATE voucher_requests SET status = :st WHERE id = :id'
         );
         $upd->execute([':st' => $new_status, ':id' => $vid]);
+
+        // After a successful approve, pre-compose a mailto URL so the admin
+        // can fire off the voucher email in one click.
+        if ($action === 'approve') {
+            $info_stmt = $pdo->prepare(
+                "SELECT u.email, u.firstname, u.lastname,
+                        c.name AS cert_name, c.code AS cert_code
+                 FROM voucher_requests vr
+                 INNER JOIN users          u ON u.id = vr.user_id
+                 INNER JOIN certifications c ON c.id = vr.certification_id
+                 WHERE vr.id = :id LIMIT 1"
+            );
+            $info_stmt->execute([':id' => $vid]);
+            $info = $info_stmt->fetch();
+
+            if ($info) {
+                // Only the cert name is pulled from the DB — everything else
+                // stays as bracketed placeholders so the admin fills the
+                // voucher code, expiration, student name and signature.
+                $cert_name = (string) $info['cert_name'];
+                $subject   = 'Your TEK-UP Voucher — ' . $cert_name;
+
+                $body = "Dear [Student Name],\n\n"
+                      . "Congratulations on successfully passing the certification requirements.\n\n"
+                      . "Please find below your voucher information for the certificate:\n\n"
+                      . "---\n\n"
+                      . "Voucher Code: [INSERT VOUCHER CODE]\n"
+                      . "Certificate: [CERTIFICATE NAME]\n"
+                      . "Expiration Date: [EXPIRATION DATE]\n"
+                      . "----------------------------------\n\n"
+                      . "You can use this voucher to complete your certification process according to the provided instructions.\n\n"
+                      . "If you have any questions or need assistance, feel free to contact us.\n\n"
+                      . "Best regards,\n"
+                      . "[Your Name]\n"
+                      . "[Your Position / Organization]";
+
+                $_SESSION['voucher_mailto'] = [
+                    'href'  => 'mailto:' . rawurlencode($info['email'])
+                               . '?subject=' . rawurlencode($subject)
+                               . '&body='    . rawurlencode($body),
+                    'email' => (string) $info['email'],
+                ];
+            }
+        }
     }
 
     header('Location: admin-vouchers.php?flash=' . urlencode($action));
     exit;
+}
+
+// One-shot pickup: read and clear the pending mailto so refresh doesn't refire.
+$pending_mailto = $_SESSION['voucher_mailto'] ?? null;
+if ($pending_mailto !== null) {
+    unset($_SESSION['voucher_mailto']);
 }
 
 $filter   = $_GET['filter'] ?? 'all';
@@ -87,12 +137,26 @@ require_once __DIR__ . '/includes/nav-admin.php';
         </div>
       </div>
 
-      <?php if ($flash_text): ?>
+      <?php if ($flash_text || $pending_mailto): ?>
         <div class="row">
           <div class="col-lg-12">
-            <div class="fe-flash<?= $flash_is_error ? ' is-error' : '' ?>">
+            <div class="fe-flash<?= $flash_is_error ? ' is-error' : '' ?><?= $pending_mailto ? ' has-action' : '' ?>">
               <i class="fa <?= $flash_is_error ? 'fa-exclamation-triangle' : 'fa-check-circle' ?>" aria-hidden="true"></i>
-              <span><?= htmlspecialchars($flash_text) ?></span>
+              <span class="fe-flash__text">
+                <?php if ($flash_text): ?>
+                  <?= htmlspecialchars($flash_text) ?>
+                <?php endif; ?>
+                <?php if ($pending_mailto): ?>
+                  <span class="fe-flash__sub">Open the voucher email for <strong><?= htmlspecialchars($pending_mailto['email']) ?></strong> in your mail client.</span>
+                <?php endif; ?>
+              </span>
+              <?php if ($pending_mailto): ?>
+                <a class="wt-btn wt-btn--primary fe-flash__action"
+                   href="<?= htmlspecialchars($pending_mailto['href']) ?>">
+                  <span>Compose voucher email</span>
+                  <span class="wt-btn-arrow" aria-hidden="true">→</span>
+                </a>
+              <?php endif; ?>
             </div>
           </div>
         </div>
