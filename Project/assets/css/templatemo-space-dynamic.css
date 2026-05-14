@@ -4055,6 +4055,31 @@ responsive
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Locked identity fields for logged-in users on contact.php */
+#contact input[disabled] {
+  background-color: #f4f1e3;
+  color: #4b5563;
+  border-color: #ecdfb5;
+  cursor: not-allowed;
+  -webkit-text-fill-color: #4b5563; /* Safari preserves disabled text colour */
+  opacity: 1;
+}
+.contact-signed-in {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  background-color: #faf6e9;
+  border: 1px solid #ecdfb5;
+  border-left: 3px solid #c9a44a;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #5d4818;
+}
+.contact-signed-in i { color: #c9a44a; font-size: 16px; }
+.contact-signed-in strong { color: #0b2342; }
+
 /* Danger variant of the ghost button — for Delete actions */
 .wt-btn.wt-btn--danger {
   color: #b91c1c;
