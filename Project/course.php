@@ -189,6 +189,17 @@ require_once __DIR__ . '/includes/nav-portal.php';
 
     if (!video) return;
 
+    // Accordion: only one section open at a time.
+    const sectionDetails = document.querySelectorAll('details.course-section');
+    sectionDetails.forEach(function (d) {
+        d.addEventListener('toggle', function () {
+            if (!d.open) return;
+            sectionDetails.forEach(function (o) {
+                if (o !== d) o.open = false;
+            });
+        });
+    });
+
     // Per-load flag so we only POST progress.php once per video, even if the user
     // re-seeks past the 90% mark.
     let markedForId = null;
