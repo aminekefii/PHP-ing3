@@ -1,0 +1,12 @@
+# Course media — multi-GB video files, kept on local disk only.
+# Each cert's media folder lives at the repo root (e.g. /pcep, /pcap).
+# Slugged folders (what the importer produces):
+/pcep/
+/pcap/
+
+# Original (unsluggified) source folders, before/after running import-course.php:
+/PCEP*/
+/PCAP*/
+
+# Claude Code plugin/agent cache.
+Project/.claude/

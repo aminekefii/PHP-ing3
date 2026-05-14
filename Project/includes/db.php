@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/config.php';
+
 // MySQL connection for XAMPP (default credentials).
 // Change these if your local MySQL user/password differs.
 

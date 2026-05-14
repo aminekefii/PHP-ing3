@@ -111,3 +111,50 @@ INSERT INTO `certifications` (`code`, `name`, `provider`, `category`, `descripti
   ('VCP-DCV',       'VCP-DCV — Data Center Virtualization',       'VMware',            'other',      'VMware Certified Professional, Data Center Virtualization.'),
   ('NVIDIA-CUDA',   'CUDA Developer',                             'NVIDIA',            'other',      'NVIDIA CUDA programming and parallel acceleration.'),
   ('ISTQB-FL',      'ISTQB Foundation Level',                     'ISTQB',             'other',      'Software testing foundation certification.');
+
+-- ---------------------------------------------------------------
+-- Course content: sections, videos, and per-user progress.
+-- Added 2026-05-14.
+-- ---------------------------------------------------------------
+
+ALTER TABLE `certifications`
+  ADD COLUMN IF NOT EXISTS `media_path` VARCHAR(255) NULL AFTER `description`;
+
+DROP TABLE IF EXISTS `video_progress`;
+DROP TABLE IF EXISTS `course_videos`;
+DROP TABLE IF EXISTS `course_sections`;
+
+CREATE TABLE `course_sections` (
+  `id`               INT AUTO_INCREMENT PRIMARY KEY,
+  `certification_id` INT NOT NULL,
+  `position`         SMALLINT NOT NULL,
+  `title`            VARCHAR(255) NOT NULL,
+  `folder`           VARCHAR(255) NOT NULL,
+  UNIQUE KEY `uq_cert_pos` (`certification_id`, `position`),
+  CONSTRAINT `fk_section_cert`
+    FOREIGN KEY (`certification_id`) REFERENCES `certifications`(`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `course_videos` (
+  `id`                INT AUTO_INCREMENT PRIMARY KEY,
+  `section_id`        INT NOT NULL,
+  `position`          SMALLINT NOT NULL,
+  `title`             VARCHAR(255) NOT NULL,
+  `filename`          VARCHAR(255) NOT NULL,
+  `subtitle_filename` VARCHAR(255) NULL,
+  `duration_seconds`  INT NULL,
+  UNIQUE KEY `uq_section_pos` (`section_id`, `position`),
+  CONSTRAINT `fk_video_section`
+    FOREIGN KEY (`section_id`) REFERENCES `course_sections`(`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `video_progress` (
+  `user_id`    INT NOT NULL,
+  `video_id`   INT NOT NULL,
+  `watched_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`, `video_id`),
+  CONSTRAINT `fk_vp_user`  FOREIGN KEY (`user_id`)  REFERENCES `users`(`id`)         ON DELETE CASCADE,
+  CONSTRAINT `fk_vp_video` FOREIGN KEY (`video_id`) REFERENCES `course_videos`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

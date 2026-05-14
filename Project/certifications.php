@@ -155,7 +155,7 @@ require_once __DIR__ . '/includes/nav-portal.php';
               <?php else: ?>
                 <span><i class="fa fa-clock-o"></i> Enrolled <?= htmlspecialchars(date('d M Y', strtotime($c['enrolled_at']))) ?></span>
                 <div class="cert-card-actions">
-                  <a href="#" class="cert-action">Continue &rarr;</a>
+                  <a href="course.php?cert=<?= (int) $c['id'] ?>" class="cert-action">Continue &rarr;</a>
                   <button type="button"
                           class="cert-cancel-btn"
                           data-bs-toggle="modal"
