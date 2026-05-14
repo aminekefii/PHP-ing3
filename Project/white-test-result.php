@@ -87,7 +87,7 @@ require_once __DIR__ . '/includes/nav-portal.php';
           </div>
           <div class="wt-actions">
             <?php if ($result['passed']): ?>
-              <a href="#" class="wt-btn wt-btn--primary">
+              <a href="final-exams.php" class="wt-btn wt-btn--primary">
                 <span>Final exam</span>
                 <span class="wt-btn-arrow" aria-hidden="true">→</span>
               </a>

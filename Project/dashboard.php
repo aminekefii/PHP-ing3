@@ -22,6 +22,14 @@ $row = $count_stmt->fetch();
 $cert_earned   = (int) ($row['earned'] ?? 0);
 $cert_progress = (int) ($row['in_progress'] ?? 0);
 
+// Courses ready for the real exam (videos complete).
+$ready_stmt = $pdo->prepare(
+    "SELECT COUNT(*) FROM user_certifications
+     WHERE user_id = :uid AND progress >= 100"
+);
+$ready_stmt->execute([':uid' => $user_id]);
+$exam_ready = (int) $ready_stmt->fetchColumn();
+
 require_once __DIR__ . '/includes/head.php';
 require_once __DIR__ . '/includes/nav-portal.php';
 ?>
@@ -51,9 +59,15 @@ require_once __DIR__ . '/includes/nav-portal.php';
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.45s">
           <div class="dash-card">
             <div class="dash-icon"><i class="fa fa-calendar"></i></div>
-            <h4>Upcoming Exams</h4>
-            <p>No exams scheduled yet.</p>
-            <a href="#" class="dash-link">Book a slot &rarr;</a>
+            <h4>Final Exams</h4>
+            <p>
+              <?php if ($exam_ready > 0): ?>
+                <?= $exam_ready ?> course<?= $exam_ready === 1 ? '' : 's' ?> ready for the official exam.
+              <?php else: ?>
+                Finish a course to unlock voucher requests.
+              <?php endif; ?>
+            </p>
+            <a href="final-exams.php" class="dash-link">Request a voucher &rarr;</a>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s">
