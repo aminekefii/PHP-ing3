@@ -75,7 +75,10 @@ require_once __DIR__ . '/includes/nav-portal.php';
               The white test is a final check of your knowledge before the official certification exam.
             </p>
             <form method="post" action="white-test.php?cert=<?= (int) $cert_id ?>" style="margin-top:16px;">
-              <button type="submit" class="main-button">Start the test</button>
+              <button type="submit" class="wt-btn wt-btn--primary">
+                <span>Start the test</span>
+                <span class="wt-btn-arrow" aria-hidden="true">→</span>
+              </button>
             </form>
 
             <div class="test-meta">

@@ -92,9 +92,14 @@ $ss        = str_pad((string) ($remaining % 60), 2, '0', STR_PAD_LEFT);
         </div>
 
         <div class="wt-submit-row">
-          <button type="submit" class="main-button">
-            <?= $is_last ? 'Submit' : 'Next →' ?>
-          </button>
+          <?php if ($is_last): ?>
+            <button type="submit" class="wt-btn wt-btn--commit">Submit answers</button>
+          <?php else: ?>
+            <button type="submit" class="wt-btn wt-btn--primary">
+              <span>Next</span>
+              <span class="wt-btn-arrow" aria-hidden="true">→</span>
+            </button>
+          <?php endif; ?>
         </div>
       </form>
 

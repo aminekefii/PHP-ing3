@@ -87,14 +87,17 @@ require_once __DIR__ . '/includes/nav-portal.php';
           </div>
           <div class="wt-actions">
             <?php if ($result['passed']): ?>
-              <a href="#" class="main-button">Final exam →</a>
-              <a href="dashboard.php" class="main-button is-secondary">Back to dashboard</a>
+              <a href="#" class="wt-btn wt-btn--primary">
+                <span>Final exam</span>
+                <span class="wt-btn-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="dashboard.php" class="wt-btn wt-btn--ghost">Back to dashboard</a>
             <?php else: ?>
               <form method="post" action="white-test.php?cert=<?= (int) $cert_id ?>">
                 <input type="hidden" name="retake" value="1">
-                <button type="submit" class="main-button">Retake exam</button>
+                <button type="submit" class="wt-btn wt-btn--soft">Retake exam</button>
               </form>
-              <a href="dashboard.php" class="main-button is-secondary">Back to dashboard</a>
+              <a href="dashboard.php" class="wt-btn wt-btn--ghost">Back to dashboard</a>
             <?php endif; ?>
           </div>
 
