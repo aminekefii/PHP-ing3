@@ -133,9 +133,9 @@ $ss        = str_pad((string) ($remaining % 60), 2, '0', STR_PAD_LEFT);
         render();
         if (!autoFired) {
           autoFired = true;
-          // If no radio is selected, the server will treat it as a missing
-          // answer for this question but still mark submitted=true on the next
-          // POST. To force that path we POST with an empty answer.
+          // Server checks expiry before the POST handler, so this POST will
+          // hit the $remaining<=0 branch, set submitted=true, and redirect
+          // to results — even if no radio is selected.
           formEl.submit();
         }
         return;
