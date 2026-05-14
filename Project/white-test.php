@@ -30,6 +30,21 @@ if (!$cert) {
     exit;
 }
 
+// Start-the-test POST handler — initialises the session and hands off to the
+// quiz page. Re-validates progress as defence in depth.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (int) $enroll_row['progress'] >= 100) {
+    $_SESSION['white_test'] = [
+        'cert_id'    => (int) $cert['id'],
+        'cert_code'  => (string) $cert['code'],
+        'started_at' => time(),
+        'current_q'  => 0,
+        'answers'    => [null, null, null, null, null],
+        'submitted'  => false,
+    ];
+    header('Location: white-test-take.php');
+    exit;
+}
+
 $page_title = 'White Test — ' . htmlspecialchars($cert['name']);
 $active     = 'certifications';
 
@@ -59,7 +74,9 @@ require_once __DIR__ . '/includes/nav-portal.php';
               Congratulations on finishing every video in <?= htmlspecialchars($cert['name']) ?>.
               The white test is a final check of your knowledge before the official certification exam.
             </p>
-            <a href="course.php?cert=<?= (int) $cert_id ?>" class="main-button" style="margin-top:16px;">Start the test</a>
+            <form method="post" action="white-test.php?cert=<?= (int) $cert_id ?>" style="margin-top:16px;">
+              <button type="submit" class="main-button">Start the test</button>
+            </form>
 
             <div class="test-meta">
               <div class="test-meta-card">
