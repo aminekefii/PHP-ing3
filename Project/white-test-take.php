@@ -102,13 +102,47 @@ $ss        = str_pad((string) ($remaining % 60), 2, '0', STR_PAD_LEFT);
   </div>
 
   <script>
-  // Highlight the selected choice card live (no submit yet — Task 4 wires POST).
-  document.querySelectorAll('.wt-choice input[type="radio"]').forEach(function (r) {
-    r.addEventListener('change', function () {
-      document.querySelectorAll('.wt-choice').forEach(function (c) { c.classList.remove('is-selected'); });
-      r.closest('.wt-choice').classList.add('is-selected');
+  (function () {
+    // Choice highlight.
+    document.querySelectorAll('.wt-choice input[type="radio"]').forEach(function (r) {
+      r.addEventListener('change', function () {
+        document.querySelectorAll('.wt-choice').forEach(function (c) { c.classList.remove('is-selected'); });
+        r.closest('.wt-choice').classList.add('is-selected');
+      });
     });
-  });
+
+    // Countdown. Server is authoritative — this just drives the display and
+    // auto-submits when the page-rendered remaining hits zero. Re-render on a
+    // refresh re-syncs against the real server value.
+    var remaining  = <?= (int) $remaining ?>;
+    var timerEl    = document.getElementById('wtTimer');
+    var formEl     = document.getElementById('wtForm');
+    var autoFired  = false;
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function render() {
+      var m = Math.floor(remaining / 60);
+      var s = remaining % 60;
+      timerEl.textContent = pad(m) + ':' + pad(s);
+    }
+
+    setInterval(function () {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        render();
+        if (!autoFired) {
+          autoFired = true;
+          // If no radio is selected, the server will treat it as a missing
+          // answer for this question but still mark submitted=true on the next
+          // POST. To force that path we POST with an empty answer.
+          formEl.submit();
+        }
+        return;
+      }
+      render();
+    }, 1000);
+  })();
   </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
