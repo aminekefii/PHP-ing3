@@ -147,6 +147,21 @@ require_once __DIR__ . '/includes/nav-portal.php';
                 </ul>
               </details>
             <?php endforeach; ?>
+
+            <?php
+              $next_pos  = count($sections) + 1;
+              $cert_done = (int) $enroll_row['progress'] >= 100;
+            ?>
+            <a id="whiteTestLink"
+               class="white-test-row<?= $cert_done ? '' : ' is-locked' ?>"
+               href="<?= $cert_done ? 'white-test.php?cert=' . $cert_id : '#' ?>"
+               data-cert-id="<?= $cert_id ?>"
+               <?= $cert_done ? '' : 'aria-disabled="true"' ?>>
+              <span class="sec-title"><?= $next_pos ?>. Pass white test</span>
+              <span class="sec-count">
+                <i class="fa fa-<?= $cert_done ? 'trophy' : 'lock' ?>" aria-hidden="true"></i>
+              </span>
+            </a>
           </div>
 
           <div class="col-lg-8 course-stage">
@@ -224,6 +239,19 @@ require_once __DIR__ . '/includes/nav-portal.php';
             const pct = allRows.length ? Math.round(100 * watched / allRows.length) : 0;
             barEl.style.width = pct + '%';
             labelEl.textContent = pct;
+
+            // Unlock the white test as soon as the course hits 100%.
+            const wt = document.getElementById('whiteTestLink');
+            if (wt && pct >= 100 && wt.classList.contains('is-locked')) {
+                wt.classList.remove('is-locked');
+                wt.removeAttribute('aria-disabled');
+                wt.href = 'white-test.php?cert=' + wt.dataset.certId;
+                const icon = wt.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-lock');
+                    icon.classList.add('fa-trophy');
+                }
+            }
 
             const sectionId = row.dataset.sectionId;
             const secRows = document.querySelectorAll('.course-video-row[data-section-id="' + sectionId + '"]');

@@ -3228,6 +3228,56 @@ responsive
   background: #000;
 }
 
+.white-test-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 12px;
+  border-top: 3px solid #c9a44a;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0b2342;
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.white-test-row:hover {
+  background-color: #f7f3e3;
+  color: #0b2342;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.white-test-row .sec-count {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #c9a44a;
+  background-color: #f2eedb;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.white-test-row.is-locked {
+  background-color: #f4f4f5;
+  border-top-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.white-test-row.is-locked:hover {
+  background-color: #f4f4f5;
+  color: #94a3b8;
+  transform: none;
+}
+
+.white-test-row.is-locked .sec-count {
+  color: #94a3b8;
+  background-color: #e5e7eb;
+}
+
 .course-stage .stage-meta {
   margin-top: 14px;
 }
