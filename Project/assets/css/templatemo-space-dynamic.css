@@ -3412,3 +3412,43 @@ responsive
   .wt-card { grid-template-columns: 1fr; }
   .wt-question { border-right: none; border-bottom: 1px solid #eee; }
 }
+
+.wt-result-header {
+  background-color: #fff;
+  border-radius: 14px;
+  border-top: 3px solid #c9a44a;
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.wt-result-header .wt-score {
+  font-size: 38px;
+  font-weight: 800;
+  color: #0b2342;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+.wt-result-header .wt-pct {
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+.wt-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.wt-badge.is-pass { background-color: #d1fae5; color: #065f46; }
+.wt-badge.is-fail { background-color: #fee2e2; color: #991b1b; }
+
+.wt-result-meta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
