@@ -158,3 +158,14 @@ CREATE TABLE `video_progress` (
   CONSTRAINT `fk_vp_user`  FOREIGN KEY (`user_id`)  REFERENCES `users`(`id`)         ON DELETE CASCADE,
   CONSTRAINT `fk_vp_video` FOREIGN KEY (`video_id`) REFERENCES `course_videos`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `voucher_requests` (
+  `id`               INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id`          INT NOT NULL,
+  `certification_id` INT NOT NULL,
+  `status`           ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `requested_at`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `uq_vr_user_cert` (`user_id`, `certification_id`),
+  CONSTRAINT `fk_vr_user` FOREIGN KEY (`user_id`)          REFERENCES `users`(`id`)          ON DELETE CASCADE,
+  CONSTRAINT `fk_vr_cert` FOREIGN KEY (`certification_id`) REFERENCES `certifications`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

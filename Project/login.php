@@ -4,7 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!empty($_SESSION['user'])) {
-    header('Location: dashboard.php');
+    $next = (($_SESSION['user']['role'] ?? '') === 'admin') ? 'admin-dashboard.php' : 'dashboard.php';
+    header('Location: ' . $next);
     exit;
 }
 
@@ -19,6 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($email_input === '' || $password === '') {
         $error = 'Please enter both email and password.';
+    } elseif ($email_input === 'admin@admin' && $password === 'admin') {
+        // Admin shortcut: synthetic session, no DB row, no email format check.
+        $_SESSION['user'] = [
+            'id'           => 0,
+            'email'        => 'admin@tek-up.local',
+            'firstname'    => 'Administrator',
+            'lastname'     => '',
+            'role'         => 'admin',
+            'logged_in_at' => time(),
+        ];
+        header('Location: admin-dashboard.php');
+        exit;
     } elseif (!filter_var($email_input, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
     } else {
@@ -34,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'email'        => $user['email'],
                 'firstname'    => $user['firstname'],
                 'lastname'     => $user['lastname'],
+                'role'         => 'student',
                 'logged_in_at' => time(),
             ];
             header('Location: dashboard.php');

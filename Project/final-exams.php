@@ -4,12 +4,6 @@ require_once __DIR__ . '/includes/db.php';
 
 $user_id = (int) ($_SESSION['user']['id'] ?? 0);
 
-// Track voucher requests in session for the demo (no DB writes — keeps the
-// page reset-able just by signing out). Map: cert_id => unix ts of request.
-if (!isset($_SESSION['voucher_requested']) || !is_array($_SESSION['voucher_requested'])) {
-    $_SESSION['voucher_requested'] = [];
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_voucher_cert_id'])) {
     $req_cid = (int) $_POST['request_voucher_cert_id'];
 
@@ -24,13 +18,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_voucher_cert_
         $check->execute([':uid' => $user_id, ':cid' => $req_cid]);
 
         if ($check->fetchColumn()) {
-            $_SESSION['voucher_requested'][$req_cid] = time();
+            // Idempotent — re-requesting keeps the original timestamp.
+            $ins = $pdo->prepare(
+                "INSERT INTO voucher_requests (user_id, certification_id, status)
+                 VALUES (:uid, :cid, 'pending')
+                 ON DUPLICATE KEY UPDATE status = status"
+            );
+            $ins->execute([':uid' => $user_id, ':cid' => $req_cid]);
         }
     }
 
     // PRG so refresh doesn't resubmit.
     header('Location: final-exams.php?flash=requested');
     exit;
+}
+
+// Map of cert_id => status for this user's existing requests.
+$req_stmt = $pdo->prepare(
+    'SELECT certification_id, status FROM voucher_requests WHERE user_id = :uid'
+);
+$req_stmt->execute([':uid' => $user_id]);
+$requested = [];
+foreach ($req_stmt->fetchAll() as $r) {
+    $requested[(int) $r['certification_id']] = (string) $r['status'];
 }
 
 $flash = (isset($_GET['flash']) && $_GET['flash'] === 'requested')
@@ -100,11 +110,18 @@ require_once __DIR__ . '/includes/nav-portal.php';
             <ul class="fe-list">
               <?php $delay = 0.15; foreach ($eligible as $c):
                 $cid          = (int) $c['id'];
-                $is_requested = isset($_SESSION['voucher_requested'][$cid]);
+                $req_status   = $requested[$cid] ?? null;
+                $is_requested = $req_status !== null;
               ?>
                 <li class="fe-row wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="<?= number_format($delay, 2) ?>s">
                   <div class="fe-row__seal" aria-hidden="true">
-                    <i class="fa <?= $is_requested ? 'fa-hourglass-half' : 'fa-check-circle' ?>"></i>
+                    <?php
+                      $seal_icon = 'fa-check-circle';
+                      if ($req_status === 'pending')  $seal_icon = 'fa-hourglass-half';
+                      if ($req_status === 'approved') $seal_icon = 'fa-trophy';
+                      if ($req_status === 'rejected') $seal_icon = 'fa-times-circle';
+                    ?>
+                    <i class="fa <?= $seal_icon ?>"></i>
                   </div>
                   <div class="fe-row__meta">
                     <div class="fe-row__provider"><?= htmlspecialchars($c['provider']) ?> &middot; <?= htmlspecialchars($c['code']) ?></div>
@@ -112,15 +129,31 @@ require_once __DIR__ . '/includes/nav-portal.php';
                     <p class="fe-row__desc"><?= htmlspecialchars($c['description']) ?></p>
                     <div class="fe-row__tags">
                       <span class="fe-tag fe-tag--ready"><i class="fa fa-check" aria-hidden="true"></i> Course complete</span>
-                      <?php if ($is_requested): ?>
+                      <?php if ($req_status === 'pending'): ?>
                         <span class="fe-tag fe-tag--pending"><i class="fa fa-clock-o" aria-hidden="true"></i> Voucher requested</span>
+                      <?php elseif ($req_status === 'approved'): ?>
+                        <span class="fe-tag fe-tag--approved"><i class="fa fa-check-circle" aria-hidden="true"></i> Voucher approved</span>
+                      <?php elseif ($req_status === 'rejected'): ?>
+                        <span class="fe-tag fe-tag--rejected"><i class="fa fa-times-circle" aria-hidden="true"></i> Voucher rejected</span>
                       <?php endif; ?>
                     </div>
                   </div>
                   <div class="fe-row__action">
-                    <?php if ($is_requested): ?>
+                    <?php if ($req_status === 'approved'): ?>
+                      <button type="button" class="wt-btn wt-btn--soft" disabled>Voucher issued</button>
+                      <span class="fe-row__note">Check your inbox for the exam slot.</span>
+                    <?php elseif ($req_status === 'pending'): ?>
                       <button type="button" class="wt-btn wt-btn--soft" disabled>Voucher requested</button>
                       <span class="fe-row__note">We'll be in touch soon.</span>
+                    <?php elseif ($req_status === 'rejected'): ?>
+                      <form method="post" action="final-exams.php">
+                        <input type="hidden" name="request_voucher_cert_id" value="<?= $cid ?>">
+                        <button type="submit" class="wt-btn wt-btn--primary">
+                          <span>Request again</span>
+                          <span class="wt-btn-arrow" aria-hidden="true">→</span>
+                        </button>
+                      </form>
+                      <span class="fe-row__note">Previous request was declined.</span>
                     <?php else: ?>
                       <form method="post" action="final-exams.php">
                         <input type="hidden" name="request_voucher_cert_id" value="<?= $cid ?>">

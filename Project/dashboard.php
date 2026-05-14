@@ -2,6 +2,11 @@
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/db.php';
 
+if (($_SESSION['user']['role'] ?? '') === 'admin') {
+    header('Location: admin-dashboard.php');
+    exit;
+}
+
 $page_title = 'Dashboard — TEK-UP Certified Students';
 $active     = 'dashboard';
 $user_id    = (int) ($_SESSION['user']['id'] ?? 0);
