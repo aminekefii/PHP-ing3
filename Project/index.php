@@ -95,6 +95,22 @@ require_once __DIR__ . '/includes/nav-public.php';
     </div>
   </div>
 
+  <?php
+  // Auto-discover every image in assets/images/news/.
+  // Newest files first (mtime), so freshly-uploaded photos open the carousel.
+  $news_dir = __DIR__ . '/assets/images/news';
+  $news_images = [];
+  if (is_dir($news_dir)) {
+      foreach (glob($news_dir . '/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', GLOB_BRACE) as $path) {
+          $news_images[] = [
+              'name'  => basename($path),
+              'mtime' => filemtime($path) ?: 0,
+          ];
+      }
+      usort($news_images, fn($a, $b) => $b['mtime'] <=> $a['mtime']);
+  }
+  ?>
+  <?php if (!empty($news_images)): ?>
   <div id="news" class="our-news section">
     <div class="container">
       <div class="row">
@@ -108,30 +124,24 @@ require_once __DIR__ . '/includes/nav-public.php';
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <div id="newsCarousel" class="carousel slide news-carousel wow fadeIn" data-bs-ride="carousel" data-bs-interval="4500" data-wow-duration="1s" data-wow-delay="0.3s">
+            <?php if (count($news_images) > 1): ?>
             <div class="carousel-indicators">
-              <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-              <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+              <?php foreach ($news_images as $i => $img): ?>
+                <button type="button" data-bs-target="#newsCarousel" data-bs-slide-to="<?= $i ?>"
+                        <?= $i === 0 ? 'class="active" aria-current="true"' : '' ?>
+                        aria-label="Slide <?= $i + 1 ?>"></button>
+              <?php endforeach; ?>
             </div>
+            <?php endif; ?>
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="assets/images/news/696126321_995625282812347_2742271832016498348_n.jpg" class="d-block w-100" alt="TEK-UP student achievement">
-              </div>
-              <div class="carousel-item">
-                <img src="assets/images/news/696881521_995729302801945_3557291500901662285_n.jpg" class="d-block w-100" alt="TEK-UP student achievement">
-              </div>
-              <div class="carousel-item">
-                <img src="assets/images/news/697777723_994993622875513_1659045749949871843_n.jpg" class="d-block w-100" alt="TEK-UP student achievement">
-              </div>
-              <div class="carousel-item">
-                <img src="assets/images/news/699010975_995634766144732_1431707900303520702_n.jpg" class="d-block w-100" alt="TEK-UP student achievement">
-              </div>
-              <div class="carousel-item">
-                <img src="assets/images/news/699650890_995721799469362_1160164391028259687_n.jpg" class="d-block w-100" alt="TEK-UP student achievement">
-              </div>
+              <?php foreach ($news_images as $i => $img): ?>
+                <div class="carousel-item<?= $i === 0 ? ' active' : '' ?>">
+                  <img src="assets/images/news/<?= htmlspecialchars(rawurlencode($img['name'])) ?>"
+                       class="d-block w-100" alt="TEK-UP student achievement">
+                </div>
+              <?php endforeach; ?>
             </div>
+            <?php if (count($news_images) > 1): ?>
             <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -140,11 +150,13 @@ require_once __DIR__ . '/includes/nav-public.php';
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
+            <?php endif; ?>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <?php endif; ?>
 
   <div id="services" class="our-services section">
     <div class="container">
