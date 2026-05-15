@@ -189,10 +189,6 @@ require_once __DIR__ . '/includes/nav-portal.php';
                 <span class="stat-value">0</span>
               </li>
               <li>
-                <span class="stat-label">Exams scheduled</span>
-                <span class="stat-value">0</span>
-              </li>
-              <li>
                 <span class="stat-label">Member since</span>
                 <span class="stat-value"><?= htmlspecialchars($member_since_year) ?></span>
               </li>
