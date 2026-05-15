@@ -16,6 +16,7 @@ function _active($key, $current) { return $key === $current ? ' class="active"' 
           <ul class="nav">
             <li class="scroll-to-section"><a href="index.php#top"<?= _active('home', $public_active) ?>>Home</a></li>
             <li class="scroll-to-section"><a href="index.php#about">About</a></li>
+            <li class="scroll-to-section"><a href="index.php#news">News</a></li>
             <li class="scroll-to-section"><a href="index.php#services">Certifications</a></li>
             <li class="scroll-to-section"><a href="index.php#portfolio">Categories</a></li>
             <li class="scroll-to-section"><a href="index.php#blog">Endorsements</a></li>

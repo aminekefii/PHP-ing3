@@ -1026,6 +1026,210 @@ Services Style
 --------------------------------------------- 
 */
 
+/* ---------------------------------------------
+   News carousel — student achievements gallery
+--------------------------------------------- */
+.our-news {
+  padding: 110px 0px 90px 0px;
+  background-color: #fcf9ee;
+  position: relative;
+  overflow: hidden;
+}
+
+.our-news::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(201, 164, 74, 0.10), transparent 38%),
+    radial-gradient(circle at 92% 88%, rgba(11, 35, 66, 0.08), transparent 42%);
+  pointer-events: none;
+}
+
+.our-news .container {
+  position: relative;
+  z-index: 1;
+}
+
+.our-news .section-heading {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.our-news .section-heading h2 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #2a2a2a;
+  line-height: 46px;
+}
+
+.our-news .section-heading h2 em {
+  font-style: normal;
+  color: #0b2342;
+}
+
+.our-news .section-heading h2 span {
+  color: #c9a44a;
+}
+
+.our-news .section-heading p {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #c9a44a;
+}
+
+.news-carousel {
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(11, 35, 66, 0.06),
+    0 26px 60px rgba(11, 35, 66, 0.18);
+  background-color: #0b2342;
+}
+
+.news-carousel .carousel-inner {
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.news-carousel .carousel-item img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.news-carousel .carousel-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: linear-gradient(to top, rgba(11, 35, 66, 0.55), transparent);
+  pointer-events: none;
+}
+
+/* Indicators — navy dots that bloom gold + wider when active */
+.news-carousel .carousel-indicators {
+  margin-bottom: 18px;
+  gap: 10px;
+}
+
+.news-carousel .carousel-indicators [data-bs-target] {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.45);
+  opacity: 1;
+  transition: width 0.35s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.news-carousel .carousel-indicators .active {
+  width: 32px;
+  border-radius: 6px;
+  background-color: #c9a44a;
+  border-color: #c9a44a;
+}
+
+/* Prev / next chevrons — navy disc, gold arrow, gold-fill on hover */
+.news-carousel .carousel-control-prev,
+.news-carousel .carousel-control-next {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: rgba(11, 35, 66, 0.75);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+  border: 1px solid rgba(201, 164, 74, 0.6);
+}
+
+.news-carousel:hover .carousel-control-prev,
+.news-carousel:hover .carousel-control-next,
+.news-carousel:focus-within .carousel-control-prev,
+.news-carousel:focus-within .carousel-control-next {
+  opacity: 1;
+}
+
+.news-carousel .carousel-control-prev { left: 18px; }
+.news-carousel .carousel-control-next { right: 18px; }
+
+.news-carousel .carousel-control-prev:hover,
+.news-carousel .carousel-control-next:hover {
+  background-color: #c9a44a;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.news-carousel .carousel-control-prev-icon,
+.news-carousel .carousel-control-next-icon {
+  width: 18px;
+  height: 18px;
+  background-image: none;
+  position: relative;
+}
+
+.news-carousel .carousel-control-prev-icon::before,
+.news-carousel .carousel-control-next-icon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-top: 2px solid #c9a44a;
+  border-right: 2px solid #c9a44a;
+  transition: border-color 0.3s ease;
+}
+
+.news-carousel .carousel-control-prev-icon::before {
+  transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.news-carousel .carousel-control-next-icon::before {
+  transform: translate(-70%, -50%) rotate(45deg);
+}
+
+.news-carousel .carousel-control-prev:hover .carousel-control-prev-icon::before,
+.news-carousel .carousel-control-next:hover .carousel-control-next-icon::before {
+  border-color: #0b2342;
+}
+
+@media (max-width: 992px) {
+  .our-news {
+    padding: 80px 0px 60px 0px;
+  }
+  .our-news .section-heading {
+    margin-bottom: 32px;
+  }
+  .our-news .section-heading h2 {
+    font-size: 26px;
+    line-height: 36px;
+  }
+  .news-carousel .carousel-item img {
+    height: 340px;
+  }
+  .news-carousel .carousel-control-prev,
+  .news-carousel .carousel-control-next {
+    opacity: 1;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 576px) {
+  .news-carousel .carousel-item img {
+    height: 240px;
+  }
+}
+
 .our-services {
   margin-top: 0px;
   padding-top: 120px;
