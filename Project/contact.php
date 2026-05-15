@@ -70,18 +70,11 @@ if ($is_logged_in) {
     <div class="container">
 
       <div class="row">
-        <div class="col-lg-12 wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.2s">
-          <div class="contact-hello">
+        <div class="col-lg-6 align-self-center wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.25s">
+          <div class="section-heading">
             <h6>Certified Students Portal</h6>
             <h2>Talk to the <em>Certifications</em> <span>Office</span></h2>
             <p>Use the form below to reach the Certifications Office. We answer within one business day.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-6 align-self-center wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.25s">
-          <div class="section-heading">
             <div class="phone-info">
               <h4>Certifications Office: <span><i class="fa fa-phone"></i> <a href="#">+216 70 250 000</a></span></h4>
             </div>

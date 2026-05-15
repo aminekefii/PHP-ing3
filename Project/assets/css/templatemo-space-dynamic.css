@@ -1459,7 +1459,7 @@ Footer Style
 
 footer p {
   text-align: center;
-  margin: 30px 0px 45px 0px;
+  margin: 22px 0px 28px 0px;
 }
 
 footer p a {
@@ -2496,15 +2496,19 @@ Contact (post-login) page
 
 .contact-page {
   background-color: #f2eedb;
-  padding: 110px 0px 40px 0px;
-  min-height: 100vh;
+  padding: 120px 0px 50px 0px;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
 }
 
-.contact-hello {
-  margin-bottom: 22px;
+.contact-page > .container {
+  width: 100%;
 }
 
-.contact-hello h6 {
+/* Portal contact page — side-by-side heading + form, mirroring the landing
+   page .contact-us layout but in the navy / gold portal palette. */
+.contact-page .section-heading h6 {
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: 13px;
@@ -2513,36 +2517,47 @@ Contact (post-login) page
   margin-bottom: 14px;
 }
 
-.contact-hello h2 {
+.contact-page .section-heading h2 {
   font-size: 38px;
   font-weight: 700;
   color: #0b2342;
-  line-height: 52px;
-  margin-bottom: 14px;
+  line-height: 50px;
+  margin-bottom: 16px;
 }
 
-.contact-hello h2 em {
+.contact-page .section-heading h2 em {
   color: #0b2342;
   font-style: normal;
 }
 
-.contact-hello h2 span {
+.contact-page .section-heading h2 span {
   color: #c9a44a;
 }
 
-.contact-hello p {
+.contact-page .section-heading p {
   color: #2a2a2a;
-  max-width: 640px;
-  margin: 0;
+  margin: 0 0 22px 0;
+  max-width: 520px;
+}
+
+.contact-page .section-heading .phone-info {
+  margin-top: 0;
 }
 
 @media (max-width: 992px) {
   .contact-page {
     padding: 140px 0px 80px 0px;
   }
-  .contact-hello h2 {
+  .contact-page .section-heading {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .contact-page .section-heading h2 {
     font-size: 28px;
     line-height: 40px;
+  }
+  .contact-page .section-heading p {
+    margin: 0 auto 22px auto;
   }
 }
 
