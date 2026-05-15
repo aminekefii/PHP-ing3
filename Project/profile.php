@@ -140,15 +140,20 @@ require_once __DIR__ . '/includes/nav-portal.php';
       <div class="row">
         <div class="col-lg-4 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
           <aside class="profile-summary">
-            <div class="profile-avatar">
-              <?php if (!empty($profile['photo'])): ?>
-                <img src="<?= htmlspecialchars($AVATAR_URL . '/' . $profile['photo']) ?>" alt="Profile photo">
-              <?php else: ?>
-                <i class="fa fa-user"></i>
-              <?php endif; ?>
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar">
+                <?php if (!empty($profile['photo'])): ?>
+                  <img src="<?= htmlspecialchars($AVATAR_URL . '/' . $profile['photo']) ?>" alt="Profile photo">
+                <?php else: ?>
+                  <i class="fa fa-user"></i>
+                <?php endif; ?>
+              </div>
+              <span class="profile-avatar-badge" aria-hidden="true">
+                <i class="fa fa-camera"></i>
+              </span>
             </div>
 
-            <form action="profile.php" method="post" enctype="multipart/form-data" class="profile-photo-form">
+            <form action="profile.php" method="post" enctype="multipart/form-data" class="profile-photo-form" id="profile-photo-form">
               <?php if ($photo_saved): ?>
                 <div class="form-notice is-success">Photo updated.</div>
               <?php endif; ?>
@@ -156,11 +161,23 @@ require_once __DIR__ . '/includes/nav-portal.php';
                 <div class="form-notice is-error"><?= htmlspecialchars($photo_error) ?></div>
               <?php endif; ?>
 
-              <label for="photo" class="profile-photo-label">Choose a photo</label>
-              <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp" required>
-              <button type="submit" class="main-button profile-photo-button">Upload photo</button>
-              <p class="profile-photo-hint">JPG, PNG or WEBP &middot; max 2&nbsp;MB</p>
+              <input type="file" name="photo" id="photo" accept="image/jpeg,image/png,image/webp" class="profile-photo-input">
+              <label for="photo" class="profile-photo-button">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                <span>Change</span>
+              </label>
             </form>
+
+            <script>
+              (function () {
+                var input = document.getElementById('photo');
+                var form  = document.getElementById('profile-photo-form');
+                if (!input || !form) return;
+                input.addEventListener('change', function () {
+                  if (input.files && input.files[0]) form.submit();
+                });
+              })();
+            </script>
 
             <h3><?= htmlspecialchars($full_name) ?></h3>
             <p class="role">TEK-UP &middot; <?= htmlspecialchars($student_id) ?></p>
