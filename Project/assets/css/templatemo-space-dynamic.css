@@ -1904,6 +1904,53 @@ Profile page
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-photo-form {
+  margin: 0 auto 22px auto;
+  text-align: center;
+}
+
+.profile-photo-form .profile-photo-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-photo-form input[type="file"] {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  margin: 0 auto 10px auto;
+}
+
+.profile-photo-form .profile-photo-button {
+  padding: 8px 18px;
+  font-size: 13px;
+}
+
+.profile-photo-form .profile-photo-hint {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.profile-photo-form .form-notice {
+  margin-bottom: 10px;
+  font-size: 12px;
 }
 
 .profile-summary h3 {

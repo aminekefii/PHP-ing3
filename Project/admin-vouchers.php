@@ -37,25 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $info = $info_stmt->fetch();
 
             if ($info) {
-                // Only the cert name is pulled from the DB — everything else
-                // stays as bracketed placeholders so the admin fills the
-                // voucher code, expiration, student name and signature.
-                $cert_name = (string) $info['cert_name'];
-                $subject   = 'Your TEK-UP Voucher — ' . $cert_name;
+                $cert_name    = (string) $info['cert_name'];
+                $student_name = trim($info['firstname'] . ' ' . $info['lastname']);
+                if ($student_name === '') $student_name = (string) $info['email'];
+                $expiration   = date('d M Y', strtotime('+10 days'));
+                $subject      = 'Your TEK-UP Voucher — ' . $cert_name;
 
-                $body = "Dear [Student Name],\n\n"
+                $body = "Dear {$student_name},\n\n"
                       . "Congratulations on successfully passing the certification requirements.\n\n"
                       . "Please find below your voucher information for the certificate:\n\n"
                       . "---\n\n"
                       . "Voucher Code: [INSERT VOUCHER CODE]\n"
-                      . "Certificate: [CERTIFICATE NAME]\n"
-                      . "Expiration Date: [EXPIRATION DATE]\n"
+                      . "Certificate: {$cert_name}\n"
+                      . "Expiration Date: {$expiration}\n"
                       . "----------------------------------\n\n"
                       . "You can use this voucher to complete your certification process according to the provided instructions.\n\n"
                       . "If you have any questions or need assistance, feel free to contact us.\n\n"
                       . "Best regards,\n"
-                      . "[Your Name]\n"
-                      . "[Your Position / Organization]";
+                      . "TEKUP Certified Student Office";
 
                 $_SESSION['voucher_mailto'] = [
                     'href'  => 'mailto:' . rawurlencode($info['email'])

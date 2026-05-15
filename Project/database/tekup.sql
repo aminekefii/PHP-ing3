@@ -30,6 +30,7 @@ CREATE TABLE `profiles` (
   `user_id`    INT NOT NULL PRIMARY KEY,
   `phone`      VARCHAR(50)  DEFAULT NULL,
   `address`    VARCHAR(255) DEFAULT NULL,
+  `photo`      VARCHAR(255) DEFAULT NULL,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `fk_profiles_user`
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
