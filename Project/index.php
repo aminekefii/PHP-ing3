@@ -123,7 +123,7 @@ require_once __DIR__ . '/includes/nav-public.php';
       </div>
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
-          <div id="newsCarousel" class="carousel slide news-carousel wow fadeIn" data-bs-ride="carousel" data-bs-interval="4500" data-wow-duration="1s" data-wow-delay="0.3s">
+          <div id="newsCarousel" class="carousel slide news-carousel" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false" data-bs-wrap="true">
             <?php if (count($news_images) > 1): ?>
             <div class="carousel-indicators">
               <?php foreach ($news_images as $i => $img): ?>
@@ -156,6 +156,32 @@ require_once __DIR__ . '/includes/nav-public.php';
       </div>
     </div>
   </div>
+  <?php endif; ?>
+
+  <?php if (!empty($news_images) && count($news_images) > 1): ?>
+  <script>
+    (function () {
+      function startNewsCarousel() {
+        var el = document.getElementById('newsCarousel');
+        if (!el || !window.bootstrap || !window.bootstrap.Carousel) return;
+        var c = bootstrap.Carousel.getOrCreateInstance(el, {
+          interval: 3500,
+          ride: 'carousel',
+          pause: false,
+          wrap: true,
+          touch: true
+        });
+        c.cycle();
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startNewsCarousel);
+      } else {
+        // Bootstrap JS is loaded at the end of the page, so wait one tick.
+        setTimeout(startNewsCarousel, 0);
+      }
+      window.addEventListener('load', startNewsCarousel);
+    })();
+  </script>
   <?php endif; ?>
 
   <div id="services" class="our-services section">
