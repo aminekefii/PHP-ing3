@@ -30,7 +30,7 @@ $ALLOWED_MIME = [
     'image/png'  => 'png',
     'image/webp' => 'webp',
 ];
-$MAX_BYTES    = 2 * 1024 * 1024; // 2 MB
+$MAX_BYTES    = 5 * 1024 * 1024; // 5 MB
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['photo'])) {
     // ---- Photo upload branch ----
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['photo'])) {
             ? 'The file is too large.'
             : 'Upload failed. Please try again.';
     } elseif ($file['size'] > $MAX_BYTES) {
-        $photo_error = 'The file is too large (max 2 MB).';
+        $photo_error = 'The file is too large (max 5 MB).';
     } else {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mime  = $finfo->file($file['tmp_name']) ?: '';
