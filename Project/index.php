@@ -19,7 +19,16 @@ require_once __DIR__ . '/includes/nav-public.php';
                   <li>Knowledge through academic courses aligned with Industry 4.0.</li>
                   <li>Expertise through professional training by GAFAM, Cisco, Oracle and other global tech leaders.</li>
                 </ul>
-             
+
+                <div class="hero-social">
+                  <span class="hero-social-label">Check us out</span>
+                  <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="hero-social-link" aria-label="Facebook">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                  </a>
+                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="hero-social-link" aria-label="LinkedIn">
+                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                  </a>
+                </div>
               </div>
             </div>
             <div class="col-lg-6">
