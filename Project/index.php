@@ -22,10 +22,10 @@ require_once __DIR__ . '/includes/nav-public.php';
 
                 <div class="hero-social">
                   <span class="hero-social-label">Check us out</span>
-                  <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="hero-social-link" aria-label="Facebook">
+                  <a href="https://www.facebook.com/profile.php?id=100070946543328" target="_blank" rel="noopener" class="hero-social-link" aria-label="TEK-UP on Facebook">
                     <i class="fa fa-facebook" aria-hidden="true"></i>
                   </a>
-                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="hero-social-link" aria-label="LinkedIn">
+                  <a href="https://www.linkedin.com/school/tek-up-university/posts/?feedView=all" target="_blank" rel="noopener" class="hero-social-link" aria-label="TEK-UP on LinkedIn">
                     <i class="fa fa-linkedin" aria-hidden="true"></i>
                   </a>
                 </div>
